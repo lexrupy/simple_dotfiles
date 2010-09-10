@@ -37,6 +37,12 @@ task :install do
       link_file(file)
     end
   end
+  puts "To complete setup, put this line in your ~/.bashrc"
+  puts "    . ~/.bash/profile"
+  puts 'If you are using RVM and have in your .bashrc file the line:'
+  puts '    "if [[ -n "$PS1" ]] ; then" '
+  puts 'include the configuration line just before the last fi before '
+  puts 'rvm stuff at end of file.'
 end
 
 def replace_file(file)
