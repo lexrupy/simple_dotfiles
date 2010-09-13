@@ -13,5 +13,8 @@ C_RESET="\[\033[00m\]"
 function _git_ps1 {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_YELLOW \$(_git_ps1)$C_RESET\$ "
+function _rvm_ps1 {
+  ~/.rvm/bin/rvm-prompt i v g 2> /dev/null | sed -e '/^System/d' -e  's/\(.*\)/ [\1]/'
+}
+PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_YELLOW \$(_git_ps1)$C_RESET\$ "
 
