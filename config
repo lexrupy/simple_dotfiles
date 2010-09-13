@@ -1,6 +1,6 @@
-# Colorindo Branch do GIT no console
+# Coloring Git Branch and RVM ruby current Version
 #--
-# Cores
+# Colors
 C_RED="\[\033[01;31m\]"
 C_GREEN="\[\033[0;32m\]"
 C_YELLOW="\[\033[01;33m\]"
@@ -9,12 +9,14 @@ C_MAGENTA="\[\033[0;35m\]"
 C_CYAN="\[\033[01;36m\]"
 C_WHITE="\[\033[0;37m\]"
 C_RESET="\[\033[00m\]"
-# funcao de colorizacao
+
 function _git_ps1 {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
+
 function _rvm_ps1 {
   ~/.rvm/bin/rvm-prompt i v g 2> /dev/null | sed -e '/^System/d' -e  's/\(.*\)/ [\1]/'
 }
+
 PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_YELLOW \$(_git_ps1)$C_RESET\$ "
 
