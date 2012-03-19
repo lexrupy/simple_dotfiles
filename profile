@@ -5,5 +5,5 @@
 complete -C ~/.bash/completion/_rake -o default rake
 complete -C ~/.bash/completion/_project -o default p
 # Funcao para levar ao diretorio do projeto
-function p { cd ~/code/$1; }
+function p { cd ~/projects/$1; }
 
