@@ -16,7 +16,7 @@ This is a simple version of dotfiles project suposed to be used in linux
 
 == Features
 
-I normally place all of my coding projects in ~/code, so this directory
+I normally place all of my coding projects in ~/projects, so this directory
 can easily be accessed (and tab completed) with the "p" command.
 
   p dotf<tab>
