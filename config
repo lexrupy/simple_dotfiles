@@ -18,5 +18,22 @@ function _rvm_ps1 {
   ~/.rvm/bin/rvm-prompt i v g 2> /dev/null | sed -e '/^System/d' -e  's/\(.*\)/ [\1]/'
 }
 
-PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_YELLOW \$(_git_ps1)$C_RESET\$ "
+function virtualenv_info(){
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "(v:$venv) "
+}
+
+# disable the default virtualenv prompt change
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+VENV="\$(virtualenv_info)";
+
+PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_YELLOW \$(_git_ps1)$C_MAGENTA\$(virtualenv_info) $C_RESET\$ "
 
