@@ -11,12 +11,19 @@ function p { cd ~/projects/$1; }
 function activate { 
     if [ ! -z "$1" ]
     then
-        if [ -d "$HOME/.venvs/$1" ]
+        if [ -f "$HOME/.venvs/$1/bin/activate" ]
         then
             source ~/.venvs/$1/bin/activate; 
-            source ~/.bash/profile;    
+        fi
+    else
+        if [ -f ".env/bin/activate" ]
+        then
+            source ./.env/bin/activate;
+        elif [ -f ".venv/bin/activate" ]
+        then
+            source ./.venv/bin/activate;
         fi
     fi
-    
+    source ~/.bash/profile;
 }
 
