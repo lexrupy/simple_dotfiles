@@ -10,8 +10,26 @@ C_CYAN="\[\033[01;36m\]"
 C_WHITE="\[\033[0;37m\]"
 C_RESET="\[\033[00m\]"
 
+
+CS_GREEN="\033[0;32m"
+CS_RED="\033[01;31m"
+
+
 function _git_ps1 {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
+  git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  git_changes=$(git status --porcelain 2> /dev/null | wc -l)
+  branch_icon="$(echo -e '\ue0a0')"
+  dirty_icon=" ±"
+  clean_icon=" ✔"
+  state_str=""
+  state_color=$CS_GREEN
+  if [[ "$git_changes" -eq 0 ]]; then
+      state_str="$clean_icon"
+  else
+      state_color=$CS_RED
+      state_str="$dirty_icon $git_changes"
+  fi
+  [[ -n "$git_branch" ]] && echo -e " $branch_icon $git_branch$state_color$state_str"
 }
 
 function _rvm_ps1 {
@@ -27,9 +45,9 @@ function _venv_ps1 {
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo "(v:$venv)"
+    [[ -n "$venv" ]] && echo " ⚑ $venv"
 }
 
 
-PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET\$ "
+PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_RED\$(_rvm_ps1)$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET \$ "
 
