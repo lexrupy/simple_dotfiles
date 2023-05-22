@@ -1,104 +1,45 @@
 # Coloring Git Branch and RVM ruby current Version
 #--
 # Colors
-C_RED="\033[0;31m"
+C_RED="\033[01;31m"
 C_GREEN="\033[0;32m"
 C_YELLOW="\033[01;33m"
 C_BLUE="\033[01;34m"
 C_MAGENTA="\033[0;35m"
 C_CYAN="\033[01;36m"
-C_BG_CYAN="\033[37;46m"
 C_WHITE="\033[0;37m"
-C_GRAY="\033[0;90m"
 C_RESET="\033[00m"
-C_CYAN_BG_GRAY="\033[1;36;100m"
-C_GREEN_BG_GRAY="\033[0;92;100m"
-C_WHITE_BG_MAGENTA="\033[1;97;45m"
-C_GRAY_BG_MAGENTA="\033[1;90;45m"
-C_BLACK_BG_YELLOW="\033[1;30;103m"
-C_MAGENTA_BG_YELLOW="\033[0;35;103m"
-C_YELLOW_BG_RED="\033[1;93;41m"
-C_YELLOW_BG_BLUE="\033[1;93;44m"
-C_YELLOW_BG_MAGENTA="\033[0;93;45m"
-C_WHITE_BG_RED="\033[1;97;41m"
-C_LIGHT_RED="\033[1;91m"
-C_BLACK_BG_GREEN="\033[0;30;42m"
-C_YELLOW_BG_GREEN="\033[1;93;42m"
-C_YELLOW_BG_GRAY="\033[1;93;100m"
-C_LIGHT_RED_BG_RED="\e[1;91;41m"
 
-I_POWERLINE_START0=""
-I_POWERLINE_START1=""
-I_SEPARATOR=""  
-I_POWERLINE_END0=""
-I_POWERLINE_END1=""
-I_SHELL_READY=""
-      # left = { "", " " }, -- separator for the left side of the statusline
-      # right = { " ", "" }, -- separator for the right side of the statusline
-      # tab = { "", "" },
+function _git_ps1 {
+  git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  git_changes=$(git status --porcelain 2> /dev/null | wc -l)
+  branch_icon="$(echo -e '\ue0a0')"
+  dirty_icon=" ±"
+  clean_icon=" ✔"
+  state_str=""
+  state_color=$C_GREEN
+  if [[ "$git_changes" -eq 0 ]]; then
+      state_str="$clean_icon"
+  else
+      state_color=$C_RED
+      state_str="$dirty_icon $git_changes"
+  fi
+  [[ -n "$git_branch" ]] && echo -e " $branch_icon $git_branch$state_color$state_str"
+}
 
 
 function _venv_ps1 {
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
-       # Strip out the path and just leave the env name
+        # Strip out the path and just leave the env name
         venv="${VIRTUAL_ENV##*/}"
     else
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo -e "$C_GRAY_BG_MAGENTA$I_SEPARATOR$C_WHITE_BG_MAGENTA⚑ $venv"
-}
-
-function _git_changes {
-  echo $(git status --porcelain 2> /dev/null | wc -l)
-}
-
-function _git_ps1 { 
-  git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-  git_changes=$(_git_changes)
-  seg_venv=$(_venv_ps1) 
-  branch_icon=""
-  dirty_icon=" ±"
-  clean_icon=" ✔"
-  state_str=""
-  if [[ "$git_changes" -eq 0 ]]; then
-      state_color=$C_YELLOW_BG_GREEN
-      state_str="$clean_icon"
-  else
-      state_color=$C_YELLOW_BG_RED
-      state_str="$dirty_icon $git_changes"
-  fi
-  if [[ -n "$git_branch" ]]; then
-    this_start_color=$C_YELLOW_BG_GRAY
-    if [[ -n $seg_venv ]]; then
-      this_start_color=$C_YELLOW_BG_MAGENTA
-    fi
-    echo -e "$this_start_color$I_POWERLINE_START1 $C_BLACK_BG_YELLOW$branch_icon $git_branch$state_color$I_POWERLINE_END1$state_str"
-  else
-    echo ""
-  fi
+    [[ -n "$venv" ]] && echo " ⚑ $venv"
 }
 
 
-function _get_end_seg_color {
-  end_seg_color=$C_GRAY
-  if [[ -n $(_venv_ps1) ]]; then
-    end_seg_color=$C_MAGENTA
-  fi
-
-  if [[ -n $(_git_ps1) ]]; then
-    end_seg_color=$C_RED
-    git_changes=$(_git_changes)
-    if [[ "$git_changes" -eq 0 ]]; then
-      end_seg_color=$C_GREEN
-    fi
-  fi
-  echo -e $end_seg_color
-}
-
-
-PS1="$C_CYAN$I_POWERLINE_START0$C_BG_CYAN\$(date +%H:%M)$C_CYAN_BG_GRAY$I_SEPARATOR$C_GREEN_BG_GRAY\w\$(_venv_ps1)\$(_git_ps1)\$(_get_end_seg_color)$I_SEPARATOR\n$C_RED$I_POWERLINE_END0$C_LIGHT_RED$I_SHELL_READY$C_RESET "
-
-#PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET \$ "
+PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET \$ "
 
