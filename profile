@@ -1,5 +1,5 @@
 # Configuration
-. ~/.bash/config
+#. ~/.bash/config
 # Completions
 . ~/.bash/completion/_git
 complete -C ~/.bash/completion/_rake -o default rake
