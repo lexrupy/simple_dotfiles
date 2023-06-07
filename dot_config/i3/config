@@ -27,9 +27,11 @@ for_window [window_role="browser"] border normal
 title_align center
 
 exec --no-startup-id picom
-exec --no-startup-id xrandr --output HDMI1 --auto --left-of eDP1
-exec --no-startup-id nitrogen --restore
+exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
+#exec --no-startup-id nitrogen --restore
 exec --no-startup-id xscreensaver -no-splash
+exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
