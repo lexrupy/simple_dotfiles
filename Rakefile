@@ -12,7 +12,7 @@ task :install do
   replace_all = false
 
   Dir['*'].each do |file|
-    next if %w[Rakefile README.rdoc LICENSE profile completion config].include? file
+    next if %w[Rakefile README.rdoc LICENSE profile completion config dot_config].include? file
 
     if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
       if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
@@ -33,6 +33,13 @@ task :install do
           puts "skipping ~/.#{file.sub('.erb', '')}"
         end
       end
+    else
+      link_file(file)
+    end
+  end
+  Dir['dot_config/*'].each do |file|
+    if File.exist?(File.join(ENV['HOME'], file.sub('dot_', '.')))
+      puts "skipping ~/#{file.sub('dot_', '.')}"
     else
       link_file(file)
     end
