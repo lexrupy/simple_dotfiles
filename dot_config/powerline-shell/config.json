@@ -1,0 +1,17 @@
+{
+  "segments": [
+    "time",
+    "~/.bash/custom_powerline_shell/s_virtualenv.py",
+    "ssh",
+    "cwd",
+    "git",
+    "root"
+  ],
+  "theme": "~/.bash/custom_powerline_shell/theme.py",
+  "cwd": {
+    "mode": "dironly"
+  },
+  "time": {
+    "format": "%H:%M"
+  }
+}
