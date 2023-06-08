@@ -79,6 +79,7 @@ tiling_drag modifier titlebar
 #bindsym $mod+Return exec kitty -e tmux
 bindsym $mod+Return exec alacritty
 bindsym Print exec flameshot gui
+bindsym $mod+b exec x-www-browser
 
 
 # kill focused window
@@ -118,7 +119,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+b split h
+bindsym $mod+z split h
 
 # split in vertical orientation
 bindsym $mod+v split v
