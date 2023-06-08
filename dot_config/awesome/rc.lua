@@ -256,6 +256,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             s.mylayoutbox,
             mylauncher,
+            my_sep_widget,
             s.mytaglist,
             s.mypromptbox,
         },
