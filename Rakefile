@@ -38,11 +38,7 @@ task :install do
     end
   end
   Dir['dot_config/*'].each do |file|
-    if File.exist?(File.join(ENV['HOME'], file.sub('dot_', '.')))
-      puts "skipping ~/#{file.sub('dot_', '.')}"
-    else
-      link_file(file)
-    end
+    link_file(file, config=true)
   end
   puts "To complete setup, put this line in your ~/.bashrc"
   puts "    . ~/.bash/profile"
@@ -57,7 +53,7 @@ def replace_file(file)
   link_file(file)
 end
 
-def link_file(file)
+def link_file(file, config=false)
   if file =~ /.erb$/
     puts "generating ~/.#{file.sub('.erb', '')}"
     File.open(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"), 'w') do |new_file|
@@ -65,7 +61,11 @@ def link_file(file)
     end
   else
     puts "linking ~/.#{file}"
-    system %Q{ln -s "$PWD/#{file}" "$HOME/.#{file}"}
+    if config
+      system %Q{ln -fs "$PWD/#{file}" "$HOME/#{file.sub('dot_', '.')}"}
+    else
+      system %Q{ln -fs "$PWD/#{file}" "$HOME/.#{file}"}
+    end
   end
 end
 
