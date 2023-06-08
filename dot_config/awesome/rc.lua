@@ -385,6 +385,19 @@ globalkeys = gears.table.join(
 --                  }
 --              end,
 --              {description = "lua execute prompt", group = "awesome"}),
+
+    -- Bind Multimedia Volume Control
+    -- Volume Down
+    awful.key( {}, "XF86AudioLowerVolume", function() 
+        awful.spawn.with_shell("amixer sset 'Master' 5%-")
+        volume_widget:dec(5)
+    end),
+    -- Volume Up 
+    awful.key( {}, "XF86AudioRaiseVolume", function() 
+        awful.spawn.with_shell("amixer sset 'Master' 5%+")
+        volume_widget:inc(5)
+    end),
+    
     -- Menubar
     awful.key({ modkey, "Shift" }, "Return", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
@@ -400,7 +413,6 @@ globalkeys = gears.table.join(
         awful.spawn.with_shell("feh --bg-fill -z ~/Imagens/wallpapers/*.jpg")
     end,
             {description = "Cycle Wallpapers", group = "applications"})
-    
     
 )
 
@@ -531,7 +543,9 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
-     }
+     },
+        -- start new clients as slave by default
+        callback =  awful.client.setslave  
     },
 
 
@@ -573,10 +587,13 @@ awful.rules.rules = {
     },
 
 
-    { rule = { class = "Google-chrome", name = "WhatsApp Web"}, properties = { floating = false }}
+    { rule = { class = "Google-chrome", name = "WhatsApp Web"}, properties = { floating = false }},
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+    
+    -- Start windows as slave by default
+    -- { rule = { }, properties = { },  callback = awful.client.setslave }
 }
 -- }}}
 
