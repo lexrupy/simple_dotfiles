@@ -18,6 +18,16 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+
+-- Widgets
+local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+
+
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
@@ -129,6 +139,25 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
+my_sep_widget = wibox.widget.textbox("  ")
+
+-- default
+local cw = calendar_widget()
+-- or customized
+local cw = calendar_widget({
+    theme = 'nord',
+    placement = 'top_right',
+    start_sunday = true,
+    radius = 8,
+-- with customized next/previous (see table above)
+    previous_month_button = 1,
+    next_month_button = 3,
+})
+mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -225,6 +254,7 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+            s.mylayoutbox,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
@@ -232,10 +262,17 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
+            ram_widget(),
+            my_sep_widget,
+            cpu_widget(),
+            my_sep_widget,
             wibox.widget.systray(),
+            my_sep_widget,
+            battery_widget({show_current_level=true}),
+            my_sep_widget,
+            volume_widget(),
             mytextclock,
-            s.mylayoutbox,
+            logout_menu_widget()
         },
     }
 end)
@@ -335,7 +372,7 @@ globalkeys = gears.table.join(
     -- Prompt
     -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
     awful.key({ modkey },            "d",     function () awful.util.spawn("rofi -modi drun,run -show drun") end,
-              {description = "Applications Prompt", group = "launcher"}),
+              {description = "Rofi Prompt", group = "launcher"}),
 
 --    awful.key({ modkey }, "x",
 --              function ()
@@ -353,7 +390,17 @@ globalkeys = gears.table.join(
 
     -- Browser
     awful.key({ modkey }, "b", function () awful.util.spawn("google-chrome") end,
-              {description = "Google Chrome", group = "applications"})
+              {description = "Google Chrome", group = "applications"}),
+    -- Screenshot
+    awful.key({}, "Print", function() awful.util.spawn("flameshot gui") end,
+            {description ='Take Flameshot screenshot', group = "applications"}),
+
+    awful.key({ modkey, "Shift"}, "w", function() 
+        awful.spawn.with_shell("feh --bg-fill -z ~/Imagens/wallpapers/*.jpg")
+    end,
+            {description = "Cycle Wallpapers", group = "applications"})
+    
+    
 )
 
 clientkeys = gears.table.join(
@@ -363,7 +410,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey, "Shift"   }, "q",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -373,13 +420,13 @@ clientkeys = gears.table.join(
               {description = "move to screen", group = "client"}),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end ,
-        {description = "minimize", group = "client"}),
+    --awful.key({ modkey,           }, "n",
+    --    function (c)
+    --        -- The client currently has the input focus, so it cannot be
+    --        -- minimized, since minimized clients can't have the focus.
+    --        c.minimized = true
+    --    end ,
+    --    {description = "minimize", group = "client"}),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized
@@ -596,7 +643,7 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-beautiful.useless_gap = 4
+beautiful.useless_gap = 2
 
 -- Autostart Applications
 
@@ -605,4 +652,6 @@ awful.spawn.with_shell("xrandr --output HDMI-1 --auto --left-of eDP-1")
 awful.spawn.with_shell("xscreensaver --no-splash")
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("feh --bg-fill -z ~/Imagens/wallpapers/*.jpg")
+awful.spawn.with_shell("flameshot")
+
 
