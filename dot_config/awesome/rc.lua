@@ -217,7 +217,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    set_wallpaper(s)
+    -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -245,37 +245,42 @@ awful.screen.connect_for_each_screen(function(s)
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
+    
+    -- To display bar only in screen X set:
+    -- if s.index == X then
+    --
+    if s then
+        -- Create the wibox
+        s.mywibox = awful.wibar({ position = "top", screen = s })
 
-    -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
-
-    -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
-            mylauncher,
-            my_sep_widget,
-            s.mytaglist,
-            s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            ram_widget(),
-            my_sep_widget,
-            cpu_widget(),
-            my_sep_widget,
-            wibox.widget.systray(),
-            my_sep_widget,
-            battery_widget({show_current_level=true}),
-            my_sep_widget,
-            volume_widget(),
-            mytextclock,
-            logout_menu_widget()
-        },
-    }
+        -- Add widgets to the wibox
+        s.mywibox:setup {
+            layout = wibox.layout.align.horizontal,
+            { -- Left widgets
+                layout = wibox.layout.fixed.horizontal,
+                s.mylayoutbox,
+                mylauncher,
+                my_sep_widget,
+                s.mytaglist,
+                s.mypromptbox,
+            },
+            s.mytasklist, -- Middle widget
+            { -- Right widgets
+                layout = wibox.layout.fixed.horizontal,
+                ram_widget(),
+                my_sep_widget,
+                cpu_widget(),
+                my_sep_widget,
+                wibox.widget.systray(),
+                my_sep_widget,
+                battery_widget({show_current_level=true}),
+                my_sep_widget,
+                volume_widget(),
+                mytextclock,
+                logout_menu_widget()
+            },
+        }
+    end
 end)
 -- }}}
 
@@ -671,5 +676,6 @@ awful.spawn.with_shell("xscreensaver --no-splash")
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("feh --bg-fill -z ~/Imagens/wallpapers/*.jpg")
 awful.spawn.with_shell("flameshot")
+awful.spawn("nm-applet")
 
 
