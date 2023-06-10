@@ -271,12 +271,12 @@ awful.screen.connect_for_each_screen(function(s)
                 my_sep_widget,
                 cpu_widget(),
                 my_sep_widget,
-                wibox.widget.systray(),
                 my_sep_widget,
                 battery_widget({show_current_level=true}),
                 my_sep_widget,
                 volume_widget(),
                 mytextclock,
+                wibox.widget.systray(),
                 logout_menu_widget({
                     onlock = function() awful.spawn.with_shell('i3lock-fancy') end
                 })
