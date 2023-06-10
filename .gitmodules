@@ -1,3 +1,6 @@
 [submodule "dot_config/awesome/awesome-wm-widgets"]
 	path = dot_config/awesome/awesome-wm-widgets
 	url = https://github.com/streetturtle/awesome-wm-widgets.git
+[submodule "dot_config/i3/i3blocks"]
+	path = dot_config/i3/i3blocks
+	url = https://github.com/vivien/i3blocks-contrib.git

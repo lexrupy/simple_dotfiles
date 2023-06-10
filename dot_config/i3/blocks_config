@@ -29,60 +29,36 @@ separator_block_width=15
 markup=none
 
 
-# Date Time
+[i3-focusedwindow]
+label=🗗
+command=~/.config/i3/i3blocks/i3-focusedwindow/i3-focusedwindow 50
+interval=persist
+#min_width=100
+#align=center
+
+# CPU usage
 #
-[time]
-command=date '+%d/%m/%Y %H:%M'
-interval=5
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+label=🮿
+interval=10
+min_width=🮿 100.00%
+#separator=false
 
-# Key indicators
-#
-# Add the following bindings to i3 config file:
-#
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-[keyindicator]
-instance=CAPS
-interval=once
-signal=11
-
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11
-
-
-# Battery indicator
-#
-# The battery instance defaults to 0.
-[battery]
-#label=BAT
-label=⚡
-#instance=1
-interval=30
-
-
-# Volume indicator
-#
-# The first parameter sets the step (and units to display)
-# The second parameter overrides the mixer selection
-# See the script for details.
-[volume]
-#label=VOL
-label=♪
-instance=Master
-#instance=PCM
-interval=once
-signal=10
+#[load_average]
+#label=AVG
+#interval=10
 
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
 #
-##[memory]
-#label=MEM
+[memory]
+label=🮽
 #separator=false
-#interval=30
+interval=30
+
 #
 #[memory]
 #label=SWAP
@@ -95,11 +71,34 @@ signal=10
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
-#[disk]
-#label=HOME
-##instance=/mnt/data
-#interval=30
+[disk]
+label=🖴 
+instance=/
+interval=30
+
+
+# Volume indicator
 #
+# The first parameter sets the step (and units to display)
+# The second parameter overrides the mixer selection
+# See the script for details.
+[volume]
+#label=VOL
+label=🕪
+instance=Master
+#instance=PCM
+interval=once
+signal=10
+
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery]
+#label=BAT
+label=⭍
+#instance=1
+interval=30
+
 ## Network interface monitoring
 ##
 ## If the instance is not specified, use the interface used for default route.
@@ -119,18 +118,6 @@ signal=10
 ##instance=eth0
 #interval=5
 #
-## CPU usage
-##
-## The script may be called with -w and -c switches to specify thresholds,
-## see the script for details.
-#[cpu_usage]
-#label=CPU
-#interval=10
-#min_width=CPU: 100.00%
-##separator=false
-
-#[load_average]
-#interval=10
 
 # Generic media player support
 #
@@ -152,6 +139,33 @@ signal=10
 # Support multiple chips, though lm-sensors.
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
-#[temperature]
-#label=TEMP
-#interval=10
+[temperature]
+command=/home/alexandre/.config/i3/i3blocks/temperature/temperature --chip coretemp-isa-0000
+label=🌡
+interval=10
+
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+[keyindicator]
+#label=⌨
+instance=CAPS
+interval=once
+signal=11
+
+#[keyindicator]
+#instance=NUM
+#interval=once
+#signal=11
+
+
+# Date Time
+#
+[time]
+command=date '+%H:%M'
+interval=5
+
