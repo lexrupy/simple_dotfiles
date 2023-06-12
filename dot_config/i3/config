@@ -33,6 +33,7 @@ exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id flameshot
+exec --no-startup-id $HOME/.bash/vendor/i3-alternating-layout/alternating_layouts.py
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -51,7 +52,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -75,9 +76,8 @@ tiling_drag modifier titlebar
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-#bindsym $mod+Return exec kitty -e tmux
-bindsym $mod+Return exec kitty
-#bindsym $mod+Return exec alacritty
+#bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 bindsym Print exec flameshot gui
 bindsym $mod+b exec x-www-browser
 
@@ -221,9 +221,10 @@ bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-       #status_command i3status
-        status_command i3blocks -c ~/.config/i3/blocks_config
-        position top
-        output primary
-}
+#bar {
+#        #status_command i3status
+#        status_command i3blocks -c ~/.config/i3/blocks_config
+#        position top
+#        output primary
+#}
+exec --no-startup-id polybar example -r

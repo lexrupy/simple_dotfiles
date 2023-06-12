@@ -29,10 +29,10 @@ separator_block_width=15
 markup=none
 
 
-[i3-focusedwindow]
-label=🗗
-command=~/.config/i3/i3blocks/i3-focusedwindow/i3-focusedwindow 50
-interval=persist
+#[i3-focusedwindow]
+#label=🗗
+#command=~/.config/i3/i3blocks/i3-focusedwindow/i3-focusedwindow 50
+#interval=persist
 #min_width=100
 #align=center
 
@@ -41,9 +41,9 @@ interval=persist
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label=🮿
+label=CPU
 interval=10
-min_width=🮿 100.00%
+#min_width=CPU: 100.00%
 #separator=false
 
 #[load_average]
@@ -53,9 +53,9 @@ min_width=🮿 100.00%
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
-#
+## pour la ram :   (f19d),  (f0c7),  (f009), (f00a), (f1fe),  (f11b)
 [memory]
-label=🮽
+label=MEM
 #separator=false
 interval=30
 
@@ -72,7 +72,7 @@ interval=30
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label=🖴 
+label=DSK
 instance=/
 interval=30
 
@@ -84,7 +84,7 @@ interval=30
 # See the script for details.
 [volume]
 #label=VOL
-label=🕪
+label=VOL
 instance=Master
 #instance=PCM
 interval=once
@@ -95,7 +95,7 @@ signal=10
 # The battery instance defaults to 0.
 [battery]
 #label=BAT
-label=⭍
+label=BAT
 #instance=1
 interval=30
 
@@ -141,7 +141,7 @@ interval=30
 # see the script for details.
 [temperature]
 command=/home/alexandre/.config/i3/i3blocks/temperature/temperature --chip coretemp-isa-0000
-label=🌡
+label=TMP
 interval=10
 
 

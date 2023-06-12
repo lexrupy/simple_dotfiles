@@ -27,3 +27,4 @@ function activate {
     source ~/.bash/profile;
 }
 
+alias tmuxd="tmux new-session \; split-window -v -p 15\; split-window -h\; select-pane -t 1\; attach"
