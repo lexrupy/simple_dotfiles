@@ -137,7 +137,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock(" %d/%m/%Y %H:%S")
 
 my_sep_widget = wibox.widget.textbox("  ")
 
@@ -593,6 +593,9 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = false }
     },
 
+    {rule = {type = "splash"
+      }, properties = { placement = awful.placement.centered, floating = true }
+    },
 
     { rule = { class = "Google-chrome", name = "WhatsApp Web"}, properties = { floating = false }},
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -673,7 +676,7 @@ beautiful.useless_gap = 2
 -- Autostart Applications
 
 awful.spawn.with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
-awful.spawn.with_shell("xrandr --output HDMI-1 --auto --left-of eDP-1")
+-- awful.spawn.with_shell("xrandr --output HDMI-1 --auto --left-of eDP-1")
 awful.spawn.with_shell("xscreensaver --no-splash")
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("feh --bg-fill -z ~/Imagens/wallpapers/*.jpg")
