@@ -42,6 +42,7 @@ markup=none
 # see the script for details.
 [cpu_usage]
 label=CPU
+color=#FF3585
 interval=10
 #min_width=CPU: 100.00%
 #separator=false
@@ -56,6 +57,7 @@ interval=10
 ## pour la ram :   (f19d),  (f0c7),  (f009), (f00a), (f1fe),  (f11b)
 [memory]
 label=MEM
+color=#EBFF32
 #separator=false
 interval=30
 
@@ -74,6 +76,7 @@ interval=30
 [disk]
 label=DSK
 instance=/
+color=#43FFFA
 interval=30
 
 
@@ -88,6 +91,7 @@ label=VOL
 instance=Master
 #instance=PCM
 interval=once
+color=#F500FF
 signal=10
 
 # Battery indicator
@@ -142,6 +146,7 @@ interval=30
 [temperature]
 command=/home/alexandre/.config/i3/i3blocks/temperature/temperature --chip coretemp-isa-0000
 label=TMP
+color=#32FFBB
 interval=10
 
 
