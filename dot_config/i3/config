@@ -81,6 +81,23 @@ bindsym $mod+Return exec alacritty
 bindsym Print exec flameshot gui
 bindsym $mod+b exec x-www-browser
 
+mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
+
+  bindsym l exec i3-msg exit
+  bindsym r exec systemctl reboot
+  bindsym s exec systemctl shutdown
+  bindsym Escape mode "default"
+  bindsym Return mode "default"
+
+}
+
+#bindsym $mod+x mode "exit: [l]ogout, [r]eboot, [s]hutdown"
+
+bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
+
+
+
+
 # cycle wallpaper
 bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 
@@ -216,15 +233,16 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 #bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        #status_command i3status
-        status_command i3blocks -c ~/.config/i3/blocks_config
-        position top
-        output primary
-}
-#exec --no-startup-id polybar example -r
+#bar {
+#        #status_command i3status
+#        status_command i3blocks -c ~/.config/i3/blocks_config
+#        position top
+#        output primary
+#}
+exec --no-startup-id polybar example -r
