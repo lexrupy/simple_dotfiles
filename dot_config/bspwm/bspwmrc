@@ -28,12 +28,12 @@ bspc rule -a Yad state=floating follow=on
 # Autorun applications
 #
 
-picom &
 #nm-applet &
 #xfce-power-manager &
-polybar for_bspwm -r &
 #xscreensaver -no-splash &
-feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 #/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+picom &
+polybar for_bspwm -r &
+feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
+$HOME/.local/bin/cleanfullscreen &
 dex --autostart --environment bspwm &
-/usr/lib/xfce4/notifyd/xfce4-notifyd &
