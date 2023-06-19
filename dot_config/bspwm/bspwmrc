@@ -30,8 +30,8 @@ bspc rule -a Yad state=floating follow=on
 
 #nm-applet &
 #xfce-power-manager &
-#xscreensaver -no-splash &
-#/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+xscreensaver -no-splash &
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 picom &
 polybar for_bspwm -r &
 feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
