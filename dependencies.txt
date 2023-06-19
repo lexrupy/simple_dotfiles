@@ -1,0 +1,17 @@
+powerline_shell (Python)
+ncal (calendario linha comando)
+tty-clock (relogio digital)
+polybar
+i3
+python-i3ipc
+bspwm
+awesome
+feh
+kitty
+alacritty
+ristretto
+nitrogen
+flameshot
+cmatrix
+xscreensaver
+arandr
