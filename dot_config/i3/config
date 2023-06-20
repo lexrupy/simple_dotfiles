@@ -40,10 +40,10 @@ default_border pixel 2
 title_align center
 
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
-#exec --no-startup-id nitrogen --restore
-#exec --no-startup-id xscreensaver -no-splash
-#exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 #exec --no-startup-id flameshot
+#exec --no-startup-id nitrogen --restore
+exec --no-startup-id xscreensaver -no-splash
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.bash/vendor/i3-alternating-layout/alternating_layouts.py
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom
@@ -63,7 +63,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -96,22 +96,20 @@ bindsym $mod+Return exec alacritty
 bindsym Print exec flameshot gui
 bindsym $mod+b exec x-www-browser
 
-mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
-
+mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]" {
+  
   bindsym l exec i3-msg exit
   bindsym r exec systemctl reboot
   bindsym s exec systemctl shutdown
+  bindsym k exec i3lock-fancy; mode "default"
   bindsym Escape mode "default"
   bindsym Return mode "default"
 
 }
 
-#bindsym $mod+x mode "exit: [l]ogout, [r]eboot, [s]hutdown"
+bindsym $mod+ctrl+x mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]"
 
 bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
-
-
-
 
 # cycle wallpaper
 bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
