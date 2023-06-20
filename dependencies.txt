@@ -15,3 +15,4 @@ flameshot
 cmatrix
 xscreensaver
 arandr
+wmctrl

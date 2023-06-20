@@ -35,5 +35,5 @@ xscreensaver -no-splash &
 picom &
 polybar for_bspwm -r &
 feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
-$HOME/.local/bin/cleanfullscreen &
+$HOME/.local/bin/bspwm-cleanfullscreen &
 dex --autostart --environment bspwm &
