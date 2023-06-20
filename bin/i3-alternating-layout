@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while true; do
+  nohup /usr/bin/python3 $HOME/.bash/vendor/i3-alternating-layout/alternating_layouts.py >/dev/null 2>&1
+done &
