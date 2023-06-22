@@ -35,7 +35,6 @@ gaps inner 6
 gaps outer 1
 
 default_border pixel 2 
-#for_window [window_role="browser"] border normal
 
 title_align center
 
@@ -182,40 +181,63 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "B"
-set $ws2 "A"
-set $ws3 "C"
-set $ws4 "D"
-set $ws5 "E"
-set $ws6 "F"
-set $ws7 "G"
-set $ws8 "H"
-set $ws9 "I"
-set $ws10 "J"
+set $ws1 "code"
+set $ws2 "db"
+set $ws3 "video"
+set $ws4 "www"
+set $ws5 "chat1"
+set $ws6 "chat2"
+set $ws7 "docs"
+set $ws8 "dsk"
+set $ws9 "dsk1"
+set $ws10 "dsk2"
+
+
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+
+workspace $ws4 output primary
+workspace $ws5 output primary
+workspace $ws6 output primary
+
+workspace $ws7 output primary HDMI-1
+workspace $ws8 output primary HDMI-1
+workspace $ws9 output primary HDMI-1
+workspace $ws10 output primary HDMI-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1; workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2; workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3; workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4; workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5; workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6; workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7; workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8; workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9; workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10; workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
+
+
+assign [class="DBeaver"] $ws2
+assign [class="google-chrome"] $ws4
+assign [class="Navigator"] $ws4
+for_window [title="YouTube"] move container to workspace $ws3; workspace $ws3
+for_window [title="WhatsApp Web"] move container to workspace $ws5; workspace $ws5
+assign [class="Slack"] $ws6
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
