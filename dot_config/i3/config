@@ -193,18 +193,18 @@ set $ws9 "dsk1"
 set $ws10 "dsk2"
 
 
-workspace $ws1 output HDMI-1
-workspace $ws2 output HDMI-1
-workspace $ws3 output HDMI-1
+workspace $ws1 output nonprimary
+workspace $ws2 output nonprimary 
+workspace $ws3 output nonprimary 
 
 workspace $ws4 output primary
 workspace $ws5 output primary
 workspace $ws6 output primary
 
-workspace $ws7 output primary HDMI-1
-workspace $ws8 output primary HDMI-1
-workspace $ws9 output primary HDMI-1
-workspace $ws10 output primary HDMI-1
+workspace $ws7 output primary nonprimary 
+workspace $ws8 output primary nonprimary 
+workspace $ws9 output primary nonprimary 
+workspace $ws10 output primary nonprimary
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
