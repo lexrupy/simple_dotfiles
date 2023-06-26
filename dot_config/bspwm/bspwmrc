@@ -2,8 +2,8 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor HDMI1 -d code db video
-bspc monitor eDP1 -d www chat1 chat2 docs dsk dsk2 dsk3
+bspc monitor HDMI-1 -d code db video
+bspc monitor eDP-1 -d www chat1 chat2 docs dsk dsk2 dsk3
 
 bspc config border_width           2
 bspc config window_gap             6
@@ -14,7 +14,7 @@ bspc config focus_follows_pointer false
 bspc config normal_border_color   "#444"
 bspc config focused_border_color  "#ffffff"
 
-#bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
+bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
 
 # Prevents emacs start floating
 bspc rule -a Emacs state=tiled
@@ -22,10 +22,17 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Yad state=floating follow=on
 
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a DBeaver desktop="^2" # follow=on
+bspc rule -a Slack desktop="^6"
+bspc rule -a Deskreen desktop="^10"
+bspc rule -a "VirtualBox Manager" desktop="^8"
+bspc rule -a VirtualBoxVM desktop="^9"
+bspc rule -a Thunar desktop="^7"
+bspc rule -a Blueman-manager state=floating
 #bspc rule -a Chromium desktop='^2'
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on
-#bspc rule -a Screenkey manage=off
+bspc rule -a Screenkey manage=off
 
 # Autorun applications
 #
@@ -34,7 +41,7 @@ bspc rule -a Yad state=floating follow=on
 #xfce-power-manager &
 xscreensaver -no-splash &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
-picom &
+picom --experimental-backends &
 polybar for_bspwm -r &
 feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 $HOME/.local/bin/bspwm-cleanfullscreen &

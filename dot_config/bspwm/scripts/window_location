@@ -1,12 +1,36 @@
 #!/bin/env bash
   
 wid="$1"
-#class="$2"
+class="$2"
 #instance="$3"
 #eval "$4"
-title="$(xprop -id $wid '\t$0' WM_NAME | cut -f 2)"
-notify-send $title
-if [[ "$title" = "WhatsApp Web"]]; then
-    notify-send "$title"
-    echo 'state=floating'
+
+title="$(xprop -id $wid '\t$0' WM_NAME | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
+
+
+if echo $class | grep -q "Java"; then
+    notify-send "Catch!"
+    echo 'float=on'
 fi
+
+
+# Send WhatsApp Web to desktop 5
+if echo $title | grep -q "WhatsApp Web" ; then
+    echo 'desktop=^5'
+fi
+
+# Send YouTube Web to desktop 3
+if echo $title | grep -q "YouTube" ; then
+    echo 'desktop=^3'
+fi
+# Send VirtualBox Manager to Desktop 8
+if echo $class| grep -q "VirtualBox Manager" ; then
+    echo 'desktop=^8'
+fi
+
+# Send VirtualBox Machine to Desktop 9
+if echo $class| grep -q "VirtualBox Machine" ; then
+    echo 'desktop=^9'
+fi
+
+#notify-send $class
