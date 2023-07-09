@@ -45,9 +45,10 @@ exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
-exec --no-startup-id picom
+exec --no-startup-id picom --experimental-backends
 exec --no-startup-id polybar for_i3 -r
-
+# setxkbmap -layout us -variant intl
+# setxkbmap -layout br -variant abnt2
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -64,6 +65,8 @@ exec --no-startup-id dex --autostart --environment i3
 # screen before suspend. Use loginctl lock-session to lock your screen.
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy
+
+
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -121,6 +124,8 @@ bindsym $mod+q kill
 #bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -show drun"
 bindsym $mod+p exec --no-startup-id dmenu_run
+bindsym $mod+Tab exec --no-startup-id "rofi -modi window -show"
+
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
