@@ -47,6 +47,29 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
 exec --no-startup-id polybar for_i3 -r
+
+#----------------------------------------------------------------------------------------
+# Scratchpad Stuff
+
+for_window [class="ScratchPad"] floating enable
+for_window [class="ScratchPad"] move position center
+for_window [class="ScratchPad"] resize set 1348 729
+for_window [class="ScratchPad"] move scratchpad
+
+exec --no-startup-id alacritty --class ScratchPad 
+
+
+# PythonPad a scratchpad with python up and running
+for_window [class="PythonPad"] floating enable
+for_window [class="PythonPad"] move position center
+for_window [class="PythonPad"] resize set 1348 729
+for_window [class="PythonPad"] move scratchpad
+
+exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+
+
+
+
 # setxkbmap -layout us -variant intl
 # setxkbmap -layout br -variant abnt2
 
@@ -65,7 +88,6 @@ exec --no-startup-id dex --autostart --environment i3
 # screen before suspend. Use loginctl lock-session to lock your screen.
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy
-
 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
@@ -98,6 +120,9 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 bindsym Print exec flameshot gui
 bindsym $mod+b exec x-www-browser
+bindsym $mod+c exec code
+
+bindsym $mod+t exec x-www-browser; exec code; exec slack; exec dbeaver-ce; exec whatsappweb
 
 mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]" {
   
@@ -132,6 +157,11 @@ bindsym $mod+Tab exec --no-startup-id "rofi -modi window -show"
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
+
+bindsym $mod+minus [class="ScratchPad"] scratchpad show; resize set 1348 729;  move position center
+bindsym $mod+plus [class="PythonPad"] scratchpad show; resize set 1348 729;  move position center
+
+ 
 focus_follows_mouse no
 
 # change focus
@@ -187,8 +217,8 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "code"
-set $ws2 "db"
-set $ws3 "video"
+set $ws2 "term"
+set $ws3 "db"
 set $ws4 "www"
 set $ws5 "chat1"
 set $ws6 "chat2"
@@ -235,13 +265,20 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 
+bindsym $mod+Mod1+ctrl+h move workspace to output left
+bindsym $mod+Mod1+ctrl+l move workspace to output right
 
-assign [class="DBeaver"] $ws2
-assign [class="google-chrome"] $ws4
+assign [class="Code"] $ws1
+assign [class="Java"] $ws2
+assign [class="DBeaver"] $ws3
+assign [class="Google-chrome"] $ws4
 assign [class="Navigator"] $ws4
-for_window [title="YouTube"] move container to workspace $ws3; workspace $ws3
 for_window [title="WhatsApp Web"] move container to workspace $ws5; workspace $ws5
+for_window [title="Google Chrome"] move container to workspace $ws4
 assign [class="Slack"] $ws6
+
+for_window [class="ScratchPad"] floating enable
+for_window [class="ScratchPad"] move scratchpad
 
 
 # reload the configuration file

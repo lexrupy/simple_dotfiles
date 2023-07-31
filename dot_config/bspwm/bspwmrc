@@ -2,7 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor HDMI-1 -d code db video
+bspc monitor HDMI-1 -d code term db
 bspc monitor eDP-1 -d www chat1 chat2 docs dsk dsk2 dsk3
 
 bspc config border_width           2
