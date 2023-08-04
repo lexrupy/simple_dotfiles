@@ -280,6 +280,7 @@ assign [class="Slack"] $ws6
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 
+for_window [class="Pythontkfloating"] floating enable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

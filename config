@@ -13,9 +13,9 @@ C_RESET="\033[00m"
 function _git_ps1 {
   git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
   git_changes=$(git status --porcelain 2> /dev/null | wc -l)
-  branch_icon="$(echo -e '\ue0a0')"
+  branch_icon=""
   dirty_icon=" ±"
-  clean_icon=" ✔"
+  clean_icon=" 󰸞"
   state_str=""
   state_color=$C_GREEN
   if [[ "$git_changes" -eq 0 ]]; then
@@ -27,19 +27,28 @@ function _git_ps1 {
   [[ -n "$git_branch" ]] && echo -e " $branch_icon $git_branch$state_color$state_str"
 }
 
-
 function _venv_ps1 {
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
+
+      ver="$(pyenv version-name)"
+      if [[ $ver == "system" ]]; then
+        ver=$(python3 -V 2>&1 | grep -Po '(?<=Python )(.+)')
+        ver="   $ver"
+      else
+        ver="  $ver"
+      fi
         # Strip out the path and just leave the env name
         venv="${VIRTUAL_ENV##*/}"
     else
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo " ⚑ $venv"
+    if [[ $venv == ".venv" ]]; then
+      venv="$(basename $PWD)"
+    fi
+    [[ -n "$venv" ]] && echo "$ver 󰉀 $venv"
 }
 
 
-PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\w$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET \$ "
-
+PS1="$C_CYAN\$(date +%H:%M) $C_GREEN\W$C_MAGENTA\$(_venv_ps1)$C_YELLOW\$(_git_ps1)$C_RESET\n$C_RED>$C_RESET "

@@ -7,9 +7,13 @@
     "git",
     "root"
   ],
+  "mode": "patched",
   "theme": "~/.bash/custom_powerline_shell/theme.py",
   "cwd": {
     "mode": "dironly"
+  },
+  "vcs": {
+    "show_symbol": false
   },
   "time": {
     "format": "%H:%M"
