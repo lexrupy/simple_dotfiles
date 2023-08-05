@@ -7,7 +7,7 @@
     "git",
     "root"
   ],
-  "mode": "patched",
+  "mode": "flat",
   "theme": "~/.bash/custom_powerline_shell/theme.py",
   "cwd": {
     "mode": "dironly"
