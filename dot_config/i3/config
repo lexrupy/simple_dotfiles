@@ -68,6 +68,12 @@ for_window [class="PythonPad"] move scratchpad
 exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
 
 
+bindsym $mod+shift+minus exec --no-startup-id alacritty --class ScratchPad
+bindsym $mod+shift+plus exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+
+bindsym $mod+minus [class="ScratchPad"] scratchpad show; resize set 1348 729;  move position center
+bindsym $mod+plus [class="PythonPad"] scratchpad show; resize set 1348 729;  move position center
+
 
 
 # setxkbmap -layout us -variant intl
@@ -156,10 +162,6 @@ bindsym $mod+Tab exec --no-startup-id "rofi -modi window -show"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
-
-
-bindsym $mod+minus [class="ScratchPad"] scratchpad show; resize set 1348 729;  move position center
-bindsym $mod+plus [class="PythonPad"] scratchpad show; resize set 1348 729;  move position center
 
  
 focus_follows_mouse no
