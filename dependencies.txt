@@ -16,3 +16,4 @@ cmatrix
 xscreensaver
 arandr
 wmctrl
+xdotool

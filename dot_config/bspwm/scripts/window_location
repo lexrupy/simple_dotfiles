@@ -20,8 +20,12 @@ if echo $title | grep -q "WhatsApp Web" ; then
 fi
 
 # Send YouTube Web to desktop 3
-if echo $title | grep -q "YouTube" ; then
-    echo 'desktop=^3'
+# if echo $title | grep -q "YouTube" ; then
+#     echo 'desktop=^3'
+# fi
+# Send Chrome profile selection window to desktop 3
+if echo $title | grep -q "Google Chrome" ; then
+    echo 'desktop=^4'
 fi
 # Send VirtualBox Manager to Desktop 8
 if echo $class| grep -q "VirtualBox Manager" ; then
