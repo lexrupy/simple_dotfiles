@@ -52,3 +52,4 @@ $HOME/.local/bin/bspwm-cleanfullscreen &
 xss-lock --transfer-sleep-lock -- i3lock-fancy &
 dex --autostart --environment bspwm &
 bspc desktop -f ^1 --follow
+

@@ -17,3 +17,7 @@ xscreensaver
 arandr
 wmctrl
 xdotool
+rofi
+fzf
+# Debian
+psmisc
