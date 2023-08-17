@@ -49,7 +49,9 @@ picom --experimental-backends &
 polybar for_bspwm -r &
 feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 $HOME/.local/bin/bspwm-cleanfullscreen &
-xss-lock --transfer-sleep-lock -- i3lock-fancy &
+#xset s 299
+#xss-lock --transfer-sleep-lock -- i3lock-fancy -n &
+#
 dex --autostart --environment bspwm &
 bspc desktop -f ^1 --follow
 

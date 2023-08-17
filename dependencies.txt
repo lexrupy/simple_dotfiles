@@ -3,6 +3,8 @@ ncal (calendario linha comando)
 tty-clock (relogio digital)
 polybar
 i3
+i3lock-fancy
+xautolock
 python-i3ipc
 bspwm
 awesome
