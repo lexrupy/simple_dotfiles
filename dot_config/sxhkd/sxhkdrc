@@ -36,6 +36,13 @@ Print
 	flameshot gui
 
 
+# Scratchpad Stuff
+super + minus 
+	~/.config/bspwm/scripts/scpad
+
+super + equal
+	~/.config/bspwm/scripts/pypad
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd

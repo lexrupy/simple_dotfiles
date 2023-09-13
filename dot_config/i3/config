@@ -233,8 +233,8 @@ set $ws10 "dsk2"
 workspace $ws1 output nonprimary
 workspace $ws2 output nonprimary 
 workspace $ws3 output nonprimary 
+workspace $ws4 output nonprimary
 
-workspace $ws4 output primary
 workspace $ws5 output primary
 workspace $ws6 output primary
 

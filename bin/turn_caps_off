@@ -1,0 +1,6 @@
+#!/bin/bash
+
+current_caps_state=$(xset -q | sed -n 's/^.*Caps Lock:\s*\(\S*\).*$/\1/p')
+if [[ "$current_caps_state" == "on" ]]; then
+	xdotool key Caps_Lock
+fi

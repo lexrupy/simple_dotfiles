@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+windowid=$(xdotool search --class ScratchPad)
+
+if [ -z "$windowid" ]; then
+  alacritty --class ScratchPad
+else
+  if [ ! -f /tmp/scpad ]; then
+    touch /tmp/scpad && xdo hide "$windowid"
+  elif [ -f /tmp/scpad ]; then
+    rm /tmp/scpad && xdo show "$windowid"
+  fi
+fi
+

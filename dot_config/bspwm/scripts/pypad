@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+windowid=$(xdotool search --class PythonPad)
+
+if [ -z "$windowid" ]; then
+  alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+else
+  if [ ! -f /tmp/pypad ]; then
+    touch /tmp/pypad && xdo hide "$windowid"
+  elif [ -f /tmp/pypad ]; then
+    rm /tmp/pypad && xdo show "$windowid"
+  fi
+fi
+

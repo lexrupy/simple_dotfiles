@@ -2,8 +2,8 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor HDMI-1 -d code term db
-bspc monitor eDP-1 -d www chat1 chat2 docs dsk dsk1 dsk2
+bspc monitor HDMI-1 -d code term db www
+bspc monitor eDP-1 -d chat1 chat2 docs dsk dsk1 dsk2
 
 bspc config border_width           2
 bspc config window_gap             6
@@ -24,7 +24,7 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Yad state=floating follow=on
 
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a DBeaver desktop="^2" #follow=on
+bspc rule -a DBeaver desktop="^3" #follow=on
 bspc rule -a Slack desktop="^6" follow=on
 bspc rule -a Deskreen desktop="^10" follow=on
 bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
@@ -37,6 +37,9 @@ bspc rule -a firefox desktop='^4' follow=on
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+
+bspc rule -a ScratchPad sticky=on state=floating rectangle=200x200 center=true
+bspc rule -a PythonPad sticky=on state=floating rectangle=200x200 center=true
 
 # Autorun applications
 #

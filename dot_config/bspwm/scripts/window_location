@@ -21,7 +21,7 @@ fi
 # if echo $title | grep -q "YouTube" ; then
 #     echo 'desktop=^3'
 # fi
-# Send Chrome profile selection window to desktop 3
+# Send Chrome profile selection window to desktop 4
 if echo $title | grep -q "Google Chrome" ; then
     echo 'desktop=^4'
 fi

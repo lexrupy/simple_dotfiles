@@ -12,7 +12,7 @@ task :install do
   replace_all = false
 
   Dir['*'].each do |file|
-    next if %w[Rakefile README.rdoc LICENSE profile completion config dot_config vendor bin].include? file
+    next if %w[Rakefile README.rdoc LICENSE zsh profile completion config dot_config vendor bin].include? file
 
     if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
       if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
