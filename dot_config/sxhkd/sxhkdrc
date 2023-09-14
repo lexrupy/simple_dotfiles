@@ -36,12 +36,21 @@ Print
 	flameshot gui
 
 
-# Scratchpad Stuff
+# Call ScrathPad script
 super + minus 
 	~/.config/bspwm/scripts/scpad
 
+# Call PythonPad script
 super + equal
 	~/.config/bspwm/scripts/pypad
+
+# Move Current Desktop Rigth Monitor
+super + alt + ctrl + l
+	bspc desktop focused -m eDP-1 --follow
+
+# Move Current Desktop to Left Monitor
+super + alt + ctrl + h
+	bspc desktop focused -m HDMI-1 --follow
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -69,7 +78,7 @@ super + shift + r
  	bspc wm -r
 
 # close and kill
-super + {_,shift + }q
+super + {shift,ctrl} + q
 	bspc node -{c,k}
  
 # alternate between the tiled and monocle layout

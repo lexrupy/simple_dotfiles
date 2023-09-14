@@ -2,7 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor HDMI-1 -d code term db www
+bspc monitor HDMI-1 -d code term www db
 bspc monitor eDP-1 -d chat1 chat2 docs dsk dsk1 dsk2
 
 bspc config border_width           2
@@ -23,23 +23,24 @@ bspc rule -a Emacs state=tiled
 # Yad calendar opens floating
 bspc rule -a Yad state=floating follow=on
 
-#bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a DBeaver desktop="^3" #follow=on
+bspc rule -a Gimp desktop='^8' follow=on
+bspc rule -a DBeaver desktop="^4" #follow=on
 bspc rule -a Slack desktop="^6" follow=on
 bspc rule -a Deskreen desktop="^10" follow=on
 bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
 bspc rule -a VirtualBoxVM desktop="^9" follow=on
 bspc rule -a Thunar desktop="^7" follow=on
-bspc rule -a Blueman-manager state=floating follow=on
-bspc rule -a Chromium desktop='^4' follow=on
-bspc rule -a Google-chrome desktop='^4' follow=on
-bspc rule -a firefox desktop='^4' follow=on
+bspc rule -a Blueman-manager state=floating rectangle=500x300 center=true
+bspc rule -a Chromium desktop='^3' follow=on
+bspc rule -a Google-chrome desktop='^3' follow=on
+bspc rule -a firefox desktop='^3' follow=on
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 
-bspc rule -a ScratchPad sticky=on state=floating rectangle=200x200 center=true
-bspc rule -a PythonPad sticky=on state=floating rectangle=200x200 center=true
+bspc rule -a ScratchPad sticky=on state=floating rectangle=1200x600+0+0 center=true
+bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=true
+
 
 # Autorun applications
 #

@@ -30,9 +30,9 @@ window:
   # must be non-zero for this to take effect. The number of columns must be at
   # least `2`, while using a value of `0` for columns and lines will fall back
   # to the window manager's recommended size
-  dimensions:
-   columns: 90
-   lines: 24
+  # dimensions:
+  #  columns: 90
+  #  lines: 24
 
   # Window position (changes require restart)
   #
@@ -140,6 +140,7 @@ font:
     #family: Hasklug Nerd Font Mono
     #family: JetBrains Mono
     #family: Fira Code
+    #family: Monaco Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -178,7 +179,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 18.0
+  size: 16.0
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.

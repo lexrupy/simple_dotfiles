@@ -220,8 +220,8 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "code"
 set $ws2 "term"
-set $ws3 "db"
-set $ws4 "www"
+set $ws3 "www"
+set $ws4 "db"
 set $ws5 "chat1"
 set $ws6 "chat2"
 set $ws7 "docs"
@@ -272,11 +272,11 @@ bindsym $mod+Mod1+ctrl+l move workspace to output right
 
 assign [class="Code"] $ws1
 assign [class="Java"] $ws2
-assign [class="DBeaver"] $ws3
-assign [class="Google-chrome"] $ws4
-assign [class="Navigator"] $ws4
+assign [class="DBeaver"] $ws4
+assign [class="Google-chrome"] $ws3
+assign [class="Navigator"] $ws3
 for_window [title="WhatsApp Web"] move container to workspace $ws5; workspace $ws5
-for_window [title="Google Chrome"] move container to workspace $ws4
+for_window [title="Google Chrome"] move container to workspace $ws3
 assign [class="Slack"] $ws6
 
 for_window [class="ScratchPad"] floating enable
@@ -317,7 +317,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 #bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 # Start i3bar to display a workspace bar (plus the system information i3status
