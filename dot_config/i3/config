@@ -38,6 +38,8 @@ default_border pixel 2
 
 title_align center
 
+exec --no-startup-id $HOME/.local/bin/connected_monitors
+
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
@@ -46,7 +48,10 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 # exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
-exec --no-startup-id polybar for_i3 -r
+
+exec --no-startup-id ~/.local/bin/launch_polybar for_i3 
+
+
 
 #----------------------------------------------------------------------------------------
 # Scratchpad Stuff
@@ -242,19 +247,22 @@ set $ws8 "dsk"
 set $ws9 "dsk1"
 set $ws10 "dsk2"
 
+set $MONITOR_1 HDMI-0
+set $MONITOR_2 HDMI-1
 
-workspace $ws1 output nonprimary
-workspace $ws2 output nonprimary 
-workspace $ws3 output nonprimary 
-workspace $ws4 output nonprimary
 
-workspace $ws5 output primary
-workspace $ws6 output primary
+workspace $ws1 output $MONITOR_1
+workspace $ws2 output $MONITOR_1 
+workspace $ws3 output $MONITOR_1 
+workspace $ws4 output $MONITOR_1
 
-workspace $ws7 output primary nonprimary 
-workspace $ws8 output primary nonprimary 
-workspace $ws9 output primary nonprimary 
-workspace $ws10 output primary nonprimary
+workspace $ws5 output $MONITOR_2
+workspace $ws6 output $MONITOR_2
+
+workspace $ws7 output $MONITOR_2 $MONITOR_1 
+workspace $ws8 output $MONITOR_2 $MONITOR_1 
+workspace $ws9 output $MONITOR_2 $MONITOR_1 
+workspace $ws10 output $MONITOR_2 $MONITOR_1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1

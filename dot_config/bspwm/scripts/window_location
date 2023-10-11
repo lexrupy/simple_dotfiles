@@ -6,6 +6,7 @@ class="$2"
 #eval "$4"
 
 title="$(xprop -id $wid '\t$0' WM_NAME | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
+role="$(xprop -id $wid '\t$0' WM_WINDOW_ROLE | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
 
 
 if echo $class | grep -q "Java"; then
@@ -21,9 +22,13 @@ fi
 # if echo $title | grep -q "YouTube" ; then
 #     echo 'desktop=^3'
 # fi
-# Send Chrome profile selection window to desktop 4
+# Send Chrome profile selection window to desktop 3, and pop-ups to desktop 8
 if echo $title | grep -q "Google Chrome" ; then
-    echo 'desktop=^4'
+    if echo $role | grep -q "pop-up"; then
+        echo 'desktop=^8'
+    else
+        echo 'desktop=^3'
+    fi
 fi
 # Send VirtualBox Manager to Desktop 8
 if echo $class| grep -q "VirtualBox Manager" ; then
@@ -35,4 +40,4 @@ if echo $class| grep -q "VirtualBox Machine" ; then
     echo 'desktop=^9'
 fi
 
-#notify-send $class
+# notify-send $class

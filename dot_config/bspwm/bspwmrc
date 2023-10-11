@@ -2,14 +2,21 @@
 
 MONITOR_1="HDMI-1"
 MONITOR_2="eDP-1"
+
 if [ -f $HOME/.config/bspwm/scripts/config ]; then
-  source $HOME/.config/bspwm/scripts/config
+    eval $($HOME/.config/bspwm/scripts/config)
 fi
+
+export POLYBAR_MONITOR=$MONITOR_2 
+
 pgrep -x sxhkd > /dev/null || sxhkd &
+
+
+# bspc monitor $MONITOR_1 -d code term www db
+# bspc monitor $MONITOR_2 -d chat1 chat2 docs dsk dsk1 dsk2
 
 bspc monitor $MONITOR_1 -d code term www db
 bspc monitor $MONITOR_2 -d chat1 chat2 docs dsk dsk1 dsk2
-
 
 bspc config border_width           2
 bspc config window_gap             6
