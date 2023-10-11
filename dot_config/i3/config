@@ -281,9 +281,9 @@ assign [class="Slack"] $ws6
 
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
-
 for_window [class="Pythontkfloating"] floating enable
-
+for_window [window_type="splash"] floating enable,move absolute center
+for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
