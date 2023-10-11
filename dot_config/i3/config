@@ -247,8 +247,8 @@ set $ws8 "dsk"
 set $ws9 "dsk1"
 set $ws10 "dsk2"
 
-set $MONITOR_1 HDMI-0
-set $MONITOR_2 HDMI-1
+# set $MONITOR_1 HDMI-0
+# set $MONITOR_2 HDMI-1
 
 
 workspace $ws1 output $MONITOR_1
