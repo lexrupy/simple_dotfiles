@@ -143,6 +143,19 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]" {
 
 bindsym $mod+ctrl+x mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]"
 
+
+# Cycle Keyboard Layouts
+mode "Keyboard Layout: [p]t-br, [u]s, us-[i]ntl" {
+
+  bindsym p exec setxkbmap -layout br; mode "default"
+  bindsym u exec setxkbmap -layout us; mode "default"
+  bindsym i exec setxkbmap -layout us -variant alt-intl; mode "default"
+  bindsym Escape mode "default"
+  bindsym Return mode "default"
+}
+
+bindsym $mod+i mode "Keyboard Layout: [p]t-br, [u]s, us-[i]ntl"
+
 bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
 
 # cycle wallpaper

@@ -1,9 +1,15 @@
 #! /bin/sh
 
+MONITOR_1="HDMI-1"
+MONITOR_2="eDP-1"
+if [ -f $HOME/.config/bspwm/scripts/config ]; then
+  source $HOME/.config/bspwm/scripts/config
+fi
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor HDMI-1 -d code term www db
-bspc monitor eDP-1 -d chat1 chat2 docs dsk dsk1 dsk2
+bspc monitor $MONITOR_1 -d code term www db
+bspc monitor $MONITOR_2 -d chat1 chat2 docs dsk dsk1 dsk2
+
 
 bspc config border_width           2
 bspc config window_gap             6
@@ -35,8 +41,7 @@ bspc rule -a Chromium desktop='^3' follow=on
 bspc rule -a Google-chrome desktop='^3' follow=on
 bspc rule -a firefox desktop='^3' follow=on
 #bspc rule -a mplayer2 state=floating
-#bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
+#bspc rule -a Kupfer.py focus=on bspc rule -a Screenkey manage=off
 
 bspc rule -a ScratchPad sticky=on state=floating rectangle=1200x600+0+0 center=true
 bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=true
