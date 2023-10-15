@@ -1,5 +1,5 @@
 #!/bin/env bash
-# MONITOR_1="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | head -1)"
-MONITOR_2="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | tail -1)"
-POLYBAR_MONITOR=$MONITOR_2 polybar -r $1 &
+MONITOR_1="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | head -1)"
+# MONITOR_2="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | tail -1)"
+POLYBAR_MONITOR=$MONITOR_1 polybar -r $1 &
 

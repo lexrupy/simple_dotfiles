@@ -7,8 +7,11 @@ super + Return
 	alacritty
 
 # program launcher
-#super + @space
-#	dmenu_run
+# super + p
+# 	dmenu_run
+
+super + p
+	i3-dmenu-desktop
 
 # Rofi applications menu
 super + d

@@ -40,4 +40,12 @@ if echo $class| grep -q "VirtualBox Machine" ; then
     echo 'desktop=^9'
 fi
 
+
+# Yad Calendar
+# if echo $title| grep -q "yad-calendar" ; then
+#     eval $(xdotool getmouselocation --shell)
+#     Y=$(expr $Y + 210)
+#     echo "state=floating, monitor=$MONITOR_1 rectangle=211x196+$X+$Y "
+# fi
+
 # notify-send $class

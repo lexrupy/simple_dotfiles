@@ -34,6 +34,7 @@ case "$1" in
     # yad --calendar --undecorated --fixed --close-on-unfocus --no-buttons \
     #     --width="$YAD_WIDTH" --height="$YAD_HEIGHT" --posx="$pos_x" --posy="$pos_y" \
     #     --title="yad-calendar" --borders=0 >/dev/null &
+    # yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 >/dev/null &
     yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus >/dev/null &
     ;;
 *)
