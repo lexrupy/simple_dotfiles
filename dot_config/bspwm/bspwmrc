@@ -16,11 +16,11 @@ if [ $QTD_MONITORS = "2" ]; then
         eval $($HOME/.config/bspwm/scripts/config)
     fi
     # Arrange desktops between monitors
-    bspc monitor $LEFT_MONITOR -d code term www db
-    bspc monitor $RIGHT_MONITOR -d chat1 chat2 docs dsk dsk1 dsk2
+    bspc monitor $LEFT_MONITOR -d 1:code 2:term 3:www 4:db
+    bspc monitor $RIGHT_MONITOR -d 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 0:dsk2
 else
     # Only one monitor detected, so all desktops go in the same
-    bspc monitor $RIGHT_MONITOR -d code term www db chat1 chat2 docs dsk dsk1 dsk2
+    bspc monitor $RIGHT_MONITOR -d 1:code 2:term 3:www 4:db 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 0:dsk2
 fi
 
 # Default monitor for polybar is RIGHT
