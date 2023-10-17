@@ -240,7 +240,7 @@ set $ws6 "6:chat2"
 set $ws7 "7:docs"
 set $ws8 "8:dsk"
 set $ws9 "9:dsk1"
-set $ws10 "0:dsk2"
+set $ws10 "10:dsk2"
 
 workspace $ws1 output nonprimary
 workspace $ws2 output nonprimary 
