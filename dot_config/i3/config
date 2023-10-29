@@ -115,6 +115,10 @@ bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -R
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 
 
+# Depends on brightnessctl tool (install via apt instal brightnessctl)
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
