@@ -5,12 +5,13 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 # Multimonitor configuration
 # default oly "RIGHT" monitor if only one connected
-RIGHT_MONITOR="eDP-1"
+RIGHT_MONITOR=$MONITOR_2  # "eDP1"
 
 QTD_MONITORS=$(xrandr | grep -sw 'connected' | wc -l)
-if [ $QTD_MONITORS = "2" ]; then
+if [ $QTD_MONITORS -gt "1" ]; then
     # Default left monitor to HDMI-1
-    LEFT_MONITOR="HDMI-1"
+    LEFT_MONITOR=$MONITOR_1
+    # "HDMI1"
     # Try to load LEFT and RIGHT from custom local config if exists
     if [ -f $HOME/.config/bspwm/scripts/config ]; then
         eval $($HOME/.config/bspwm/scripts/config)

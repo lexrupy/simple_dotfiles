@@ -27,7 +27,6 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       #ffffff
 
-
 workspace_auto_back_and_forth no
 
 
@@ -43,7 +42,7 @@ title_align center
 #exec --no-startup-id nitrogen --restore
 exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
+exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
 
