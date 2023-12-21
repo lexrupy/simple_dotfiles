@@ -37,10 +37,11 @@ default_border pixel 2
 
 title_align center
 
+
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
-exec --no-startup-id xscreensaver -no-splash
+# exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
@@ -207,10 +208,13 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+ctrl+l split h
+# bindsym $mod+ctrl+l split h
 
 # split in vertical orientation
-bindsym $mod+ctrl+j split v
+# bindsym $mod+ctrl+j split v
+
+# toggle split orientation
+bindsym $mod+ctrl+j split t
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -305,7 +309,8 @@ for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
 for_window [window_type="splash"] floating enable,move absolute center
-for_window [title=".*backend.*"] move container to workspace $ws8
+# for_window [title=".*backend.*"] move container to workspace $ws8
+for_window [class="Blueman-manager"] floating enable, move absolute center, resize set 630 160
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
