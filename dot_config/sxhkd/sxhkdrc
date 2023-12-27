@@ -24,6 +24,10 @@ super + x
 super + b 
   google-chrome
 
+# Chat -> WhatsApp Web
+super + c
+	whatsappweb
+
 # Web Browser Anonymous
 
 super + shift + b

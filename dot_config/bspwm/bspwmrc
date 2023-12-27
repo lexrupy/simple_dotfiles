@@ -10,7 +10,7 @@ RIGHT_MONITOR=$MONITOR_2  # "eDP1"
 QTD_MONITORS=$(xrandr | grep -sw 'connected' | wc -l)
 if [ $QTD_MONITORS -gt "1" ]; then
     # Default left monitor to HDMI-1
-    LEFT_MONITOR="HDMI1"
+    LEFT_MONITOR=$MONITOR_1
     # Try to load LEFT and RIGHT from custom local config if exists
     if [ -f $HOME/.config/bspwm/scripts/config ]; then
         eval $($HOME/.config/bspwm/scripts/config)

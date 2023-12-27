@@ -130,6 +130,8 @@ tiling_drag modifier titlebar
 #bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec kitty
 
+#Launch WhatApp Web
+bindsym $mod+c exec whatsappweb
 # Launch default terminal
 bindsym $mod+Return exec alacritty
 # Take Screenshot
