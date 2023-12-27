@@ -59,7 +59,8 @@ for_window [class="ScratchPad"] move position center
 for_window [class="ScratchPad"] resize set 1348 729
 for_window [class="ScratchPad"] move scratchpad
 
-exec --no-startup-id alacritty --class ScratchPad 
+# exec --no-startup-id alacritty --class ScratchPad 
+exec --no-startup-id ~/.local/bin/i3-scratchpad
 
 
 # PythonPad a scratchpad with python up and running
@@ -68,11 +69,14 @@ for_window [class="PythonPad"] move position center
 for_window [class="PythonPad"] resize set 1348 729
 for_window [class="PythonPad"] move scratchpad
 
-exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+# exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+exec --no-startup-id ~/.local/bin/i3-pythonpad
 
 
-bindsym $mod+shift+minus exec --no-startup-id alacritty --class ScratchPad
-bindsym $mod+shift+plus exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+bindsym $mod+shift+minus exec --no-startup-id ~/.local/bin/i3-scratchpad
+bindsym $mod+shift+plus exec --no-startup-id ~/.local/bin/i3-pythonpad
+# bindsym $mod+shift+minus exec --no-startup-id alacritty --class ScratchPad
+# bindsym $mod+shift+plus exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
 
 bindsym $mod+minus [class="ScratchPad"] scratchpad show; resize set 1348 729;  move position center
 bindsym $mod+plus [class="PythonPad"] scratchpad show; resize set 1348 729;  move position center

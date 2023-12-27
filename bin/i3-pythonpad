@@ -1,0 +1,6 @@
+#!/bin/env bash
+SERVICE="alacritty --class PythonPad"
+if ! pgrep -f "$SERVICE" >/dev/null
+then
+  alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython &
+fi

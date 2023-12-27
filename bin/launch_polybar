@@ -1,6 +1,10 @@
 #!/bin/env bash
-#MONITOR_1="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | head -1)"
-# MONITOR_2="$(xrandr --query | grep ' connected' | cut -d ' ' -f1 | tail -1)"
 MONITOR="$(xrandr --query|grep primary|cut -d ' ' -f1)"
-POLYBAR_MONITOR=$MONITOR polybar -r $1 &
+SERVICE="polybar"
+if pgrep -x "$SERVICE" >/dev/null
+then
+  polybar-msg cmd restart
+else
+  POLYBAR_MONITOR=$MONITOR polybar -r $1 &
+fi
 
