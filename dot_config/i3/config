@@ -34,6 +34,7 @@ gaps inner 6
 gaps outer 1
 
 default_border pixel 2 
+# default_floating_border pixel 2
 
 title_align center
 
@@ -313,6 +314,7 @@ for_window [class="Yad" title="yad-calendar"] floating enable, move position mou
 for_window [window_type="splash"] floating enable,move absolute center
 # for_window [title=".*backend.*"] move container to workspace $ws8
 for_window [class="Blueman-manager"] floating enable, move absolute center, resize set 630 160
+for_window [class="ksshaskpass"] floating enable, move absolute center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
