@@ -19,6 +19,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 REPORTTIME=10 # print elapsed time when more than 10 seconds
 
+alias clock="tty-clock -C 4"
 
 alias ls="exa --icons"
 

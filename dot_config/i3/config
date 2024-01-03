@@ -27,7 +27,6 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       #ffffff
 
-
 workspace_auto_back_and_forth no
 
 
@@ -35,19 +34,21 @@ gaps inner 6
 gaps outer 1
 
 default_border pixel 2 
+# default_floating_border pixel 2
 
 title_align center
+
 
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
 # exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
+exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
 
-exec --no-startup-id ~/.local/bin/launch_polybar for_i3 
+exec_always --no-startup-id ~/.local/bin/launch_polybar for_i3 
 
 
 #----------------------------------------------------------------------------------------
@@ -58,7 +59,8 @@ for_window [class="ScratchPad"] move position center
 for_window [class="ScratchPad"] resize set 1348 729
 for_window [class="ScratchPad"] move scratchpad
 
-exec --no-startup-id alacritty --class ScratchPad 
+# exec --no-startup-id alacritty --class ScratchPad 
+exec --no-startup-id ~/.local/bin/i3-scratchpad
 
 
 # PythonPad a scratchpad with python up and running
@@ -67,11 +69,14 @@ for_window [class="PythonPad"] move position center
 for_window [class="PythonPad"] resize set 1348 729
 for_window [class="PythonPad"] move scratchpad
 
-exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+# exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+exec --no-startup-id ~/.local/bin/i3-pythonpad
 
 
-bindsym $mod+shift+minus exec --no-startup-id alacritty --class ScratchPad
-bindsym $mod+shift+plus exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
+bindsym $mod+shift+minus exec --no-startup-id ~/.local/bin/i3-scratchpad
+bindsym $mod+shift+plus exec --no-startup-id ~/.local/bin/i3-pythonpad
+# bindsym $mod+shift+minus exec --no-startup-id alacritty --class ScratchPad
+# bindsym $mod+shift+plus exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
 
 bindsym $mod+minus [class="ScratchPad"] scratchpad show; resize set 1348 729;  move position center
 bindsym $mod+plus [class="PythonPad"] scratchpad show; resize set 1348 729;  move position center
@@ -115,6 +120,10 @@ bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -R
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 
 
+# Depends on brightnessctl tool (install via apt instal brightnessctl)
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -126,6 +135,8 @@ tiling_drag modifier titlebar
 #bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec kitty
 
+#Launch WhatApp Web
+bindsym $mod+c exec whatsappweb
 # Launch default terminal
 bindsym $mod+Return exec alacritty
 # Take Screenshot
@@ -204,10 +215,13 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+ctrl+l split h
+# bindsym $mod+ctrl+l split h
 
 # split in vertical orientation
-bindsym $mod+ctrl+j split v
+# bindsym $mod+ctrl+j split v
+
+# toggle split orientation
+bindsym $mod+ctrl+j split t
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -302,12 +316,15 @@ for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
 for_window [class="Yad" title="Authentication"] floating enable, move position center
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
-for_window [class="Blueman-manager"] floating enable, resize set 600 400, move position mouse, move down 25 px
 for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
 for_window [window_type="splash"] floating enable, move position center
 for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\sregistro.*"] floating enable, resize set 1024 950, move position center
 for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\senvolvido.*"] floating enable, resize set 1310 1140, move position center
 # for_window [title=".*backend.*"] move container to workspace $ws8, workspace $ws8
+for_window [window_type="splash"] floating enable,move absolute center
+# for_window [title=".*backend.*"] move container to workspace $ws8
+for_window [class="Blueman-manager"] floating enable, move absolute center, resize set 630 160
+for_window [class="ksshaskpass"] floating enable, move absolute center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

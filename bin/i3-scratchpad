@@ -1,0 +1,7 @@
+#!/bin/env bash
+
+SERVICE="alacritty --class ScratchPad"
+if ! pgrep -f "$SERVICE" >/dev/null
+then
+  alacritty --class ScratchPad &
+fi
