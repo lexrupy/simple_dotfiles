@@ -41,7 +41,7 @@ title_align center
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
-exec --no-startup-id xscreensaver -no-splash
+# exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
@@ -300,9 +300,14 @@ for_window [class="SecondaryTerminal"] move container to workspace $ws2
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
+for_window [class="Yad" title="Authentication"] floating enable, move position center
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
-for_window [window_type="splash"] floating enable,move absolute center
-for_window [title=".*backend.*"] move container to workspace $ws8
+for_window [class="Blueman-manager"] floating enable, resize set 600 400, move position mouse, move down 25 px
+for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
+for_window [window_type="splash"] floating enable, move position center
+for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\sregistro.*"] floating enable, resize set 1024 950, move position center
+for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\senvolvido.*"] floating enable, resize set 1310 1140, move position center
+# for_window [title=".*backend.*"] move container to workspace $ws8, workspace $ws8
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
