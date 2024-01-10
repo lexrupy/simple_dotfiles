@@ -42,12 +42,14 @@ title_align center
 #exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
-# exec --no-startup-id xscreensaver -no-splash
+exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
-
+# Cycle lightdm background image for next login
+exec_always --no-startup-id ~/.local/bin/cyclebg.sh
+# Always reload polybar
 exec_always --no-startup-id ~/.local/bin/launch_polybar for_i3 
 
 
