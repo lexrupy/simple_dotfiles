@@ -45,10 +45,11 @@ title_align center
 # exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
-exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id picom --experimental-backends
+exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 
-exec --no-startup-id ~/.local/bin/launch_polybar for_i3 
+# Use exec_always so the script can restart polybar to prevent glitch on system tray
+exec_always --no-startup-id ~/.local/bin/launch_polybar for_i3 
 
 
 #----------------------------------------------------------------------------------------
@@ -158,6 +159,8 @@ bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -show drun"
 bindsym $mod+p exec --no-startup-id dmenu_run
 # Show Cycle Windows Menu with rofi
 bindsym $mod+Tab exec --no-startup-id "rofi -modi window -show"
+# Lock the screen
+bindsym $mod+shift+z exec i3lock-fancy
 
 # Configuration for logout/shutdown menu
 mode "exit: [l]ogout, [r]eboot, [s]hutdown loc[k]" {
@@ -355,7 +358,7 @@ bindsym $mod+r mode "resize"
 
 
 
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 #bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -364,7 +367,10 @@ bindsym $mod+r mode "resize"
 #        #status_command i3status
 #        status_command i3blocks -c ~/.config/i3/blocks_config
 #        position top
-#        output primary
+#        # output primary
+#        # workspace_command ~/.local/bin/i3-workspaces
+#        strip_workspace_numbers yes
+#
 # }
 
 # Go to workspace 1

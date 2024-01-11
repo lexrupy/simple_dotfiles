@@ -74,6 +74,10 @@ XF86AudioLowerVolume
 XF86AudioMute
 	amixer -q -D pulse sset Master toggle
 
+# Lock the screen
+super + shift + z
+	i3lock-fancy
+
 #
 # bspwm hotkeys
 #
