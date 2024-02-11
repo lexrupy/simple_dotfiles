@@ -318,7 +318,8 @@ for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
-for_window [window_type="splash"] floating enable,move absolute center
+for_window [class="Gitk"] floating enable, move absolute center
+for_window [window_type="splash"] floating enable, move absolute center
 # for_window [title=".*backend.*"] move container to workspace $ws8
 for_window [class="Blueman-manager"] floating enable, move absolute center, resize set 630 160
 for_window [class="ksshaskpass"] floating enable, move absolute center
