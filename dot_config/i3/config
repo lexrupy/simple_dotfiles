@@ -145,7 +145,7 @@ bindsym Print exec flameshot gui
 # Open default internet browser
 bindsym $mod+b exec x-www-browser
 # bindsym $mod+c exec code
-bindsym $mod+t exec alacritty --class PrimaryTerminal; exec alacritty --class SecondaryTerminal; exec x-www-browser; exec dbeaver-ce; exec whatsappweb; exec slack; 
+# bindsym $mod+t exec alacritty --class PrimaryTerminal; exec alacritty --class SecondaryTerminal; exec x-www-browser; exec dbeaver-ce; exec whatsappweb; exec slack; 
 # Display Applications Menu Selector
 bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
 # cycle wallpaper
@@ -310,9 +310,13 @@ assign [class="DBeaver"] $ws4
 # assign [class="Google-chrome"] $ws3
 assign [class="Navigator"] $ws3
 assign [class="Slack"] $ws6
-for_window [title="WhatsApp Web"] move container to workspace $ws5; workspace $ws5
+
+
+for_window [class="Docker Desktop"] move container to workspace $ws9;
+
+for_window [title="WhatsApp Web"] move container to workspace $ws5; floating disable; workspace $ws5
 # Popup windows floating
-for_window [class="Google-chrome" window_role="pop-up"] floating enable, resize set 1200 700, move position center
+for_window [title="^(?!.*WhatsApp Web).*$" class="Google-chrome" window_role="pop-up" ] floating enable, resize set 1200 700, move position center
 # Get pop-up to the same workspace of parent window
 for_window [class="Google-chrome" window_role="pop-up"] [title_format="%c"] move container to workspace [con_id=__focused__]
 # All the other browser windows go to workspace 3
