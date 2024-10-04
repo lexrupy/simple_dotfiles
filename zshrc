@@ -28,15 +28,19 @@ alias cat="batcat"
 alias la="ls -la"
 alias ll="ls -l"
 
+alias lg="lazygit"
+
 alias nvimb="/usr/bin/nvim"
 #
-# alias lazy="NVIM_APPNAME=LazyVim nvimb"
-# alias chad="NVIM_APPNAME=NvChad nvimb"
+alias lazy="NVIM_APPNAME=LazyNvim nvimb"
+alias chad="NVIM_APPNAME=NvChad nvimb"
 alias nvim="NVIM_APPNAME=AstroNvim nvimb"
-# alias vim="nvimb"
+alias kick="NVIM_APPNAME=KickStart nvimb"
+#alias vim="nvimb"
+alias vim="/bin/vim"
 #
 function nvims() {
-  items=("AstroNvim" "NvChad" "LazyVim" "default")
+  items=("AstroNvim" "NvChad" "LazyVim" "nvim-kickstart" "default")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -93,4 +97,16 @@ export PATH="$HOME/.local/bin:$PATH"
 eval "$(pyenv init -)"
 
 eval "$(pyenv virtualenv-init -)"
+
+
+
+function docxgrep() {
+    keyword="$1"
+    /usr/bin/fdfind -t f -e docx . | while read -r arg; do
+        if unzip -p "$arg" 2>/dev/null | rg -q  --ignore-case --fixed-strings "$keyword"; then
+            echo "$arg"
+        fi
+    done
+}
+
 

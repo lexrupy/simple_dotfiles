@@ -137,6 +137,8 @@ tiling_drag modifier titlebar
 #bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec kitty
 
+bindsym  $mod+button1 kill
+
 #Launch WhatApp Web
 bindsym $mod+c exec whatsappweb
 # Launch default terminal
@@ -320,13 +322,15 @@ for_window [class="Yad" title="Authentication"] floating enable, move position c
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
 for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
 for_window [window_type="splash"] floating enable, move position center
-for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\sregistro.*"] floating enable, resize set 1024 950, move position center
-for_window [window_role="pop-up" title=".*[Adicionar|Modificar]\senvolvido.*"] floating enable, resize set 1310 1140, move position center
+for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1024 950, move position center border normal
+for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1310 1140, move position center border normal
 # for_window [title=".*backend.*"] move container to workspace $ws8, workspace $ws8
 for_window [window_type="splash"] floating enable,move absolute center
 # for_window [title=".*backend.*"] move container to workspace $ws8
 for_window [class="Blueman-manager"] floating enable, move absolute center, resize set 630 160
+for_window [class="Qalculate-gtk"] floating enable, move absolute center
 for_window [class="ksshaskpass"] floating enable, move absolute center
+for_window [class="thunar" window_type="dialog"] move absolute center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
