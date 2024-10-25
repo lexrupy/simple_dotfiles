@@ -332,6 +332,8 @@ for_window [class="Qalculate-gtk"] floating enable, move absolute center
 for_window [class="ksshaskpass"] floating enable, move absolute center
 for_window [class="thunar" window_type="dialog"] move absolute center
 
+
+for_window [class="main.py" title="Cronômetro"] floating enable, move position center
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
