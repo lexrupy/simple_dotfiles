@@ -27,16 +27,18 @@ alias cat="batcat"
 
 alias la="ls -la"
 alias ll="ls -l"
+alias cd..="cd .."
 
 alias nvimb="/usr/bin/nvim"
 #
-# alias lazy="NVIM_APPNAME=LazyVim nvimb"
-# alias chad="NVIM_APPNAME=NvChad nvimb"
-alias nvim="NVIM_APPNAME=AstroNvim nvimb"
-# alias vim="nvimb"
+alias lazy="NVIM_APPNAME=LazyVim nvimb"
+alias chad="NVIM_APPNAME=NvChad nvimb"
+alias astro="NVIM_APPNAME=AstroNvim nvimb"
+alias kick="NVIM_APPNAME=KickStart nvimb"
+# alias vim=""
 #
 function nvims() {
-  items=("AstroNvim" "NvChad" "LazyVim" "default")
+  items=("AstroNvim" "AstroNvim4" "NvChad" "LazyVim" "KickStart" "default")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
