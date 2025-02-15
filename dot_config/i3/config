@@ -193,6 +193,8 @@ bindsym $mod+i mode "Keyboard Layout: [p]t-br, [u]s, us-[i]ntl"
  
 focus_follows_mouse no
 
+mouse_warping none
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -336,7 +338,8 @@ for_window [class="Pavucontrol"] floating enable, move position center, resize 1
 for_window [class="ksshaskpass"] floating enable, move position center
 
 # Kill the window when middle click on title border
-bindsym --release --border button2 kill
+# bindsym --release --border $mod+button2 kill
+bindsym $mod+button1 kill
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
