@@ -27,6 +27,7 @@ alias cat="batcat"
 
 alias la="ls -la"
 alias ll="ls -l"
+alias cls="clear"
 
 alias lg="lazygit"
 

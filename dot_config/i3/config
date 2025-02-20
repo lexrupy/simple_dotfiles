@@ -45,7 +45,8 @@ title_align center
 exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
-exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+# exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+exec --no-startup-id ~/.local/bin/setdesktopbg.sh
 exec --no-startup-id picom --experimental-backends
 # Cycle lightdm background image for next login
 exec_always --no-startup-id ~/.local/bin/cyclebg.sh
@@ -139,6 +140,9 @@ tiling_drag modifier titlebar
 
 bindsym  $mod+button1 kill
 
+
+bindsym $mod+f12 exec pkill xscreensaver; exec xscreensaver --ho-splash
+
 #Launch WhatApp Web
 bindsym $mod+c exec whatsappweb
 # Launch default terminal
@@ -152,7 +156,9 @@ bindsym $mod+t exec alacritty --class PrimaryTerminal; exec alacritty --class Se
 # Display Applications Menu Selector
 bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
 # cycle wallpaper
-bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+# bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/setdesktopbg.sh
+
 # kill focused window
 bindsym $mod+shift+q kill
 # start dmenu (a program launcher)
@@ -331,6 +337,8 @@ for_window [class="Blueman-manager"] floating enable, move absolute center, resi
 for_window [class="Qalculate-gtk"] floating enable, move absolute center
 for_window [class="ksshaskpass"] floating enable, move absolute center
 for_window [class="thunar" window_type="dialog"] move absolute center
+for_window [class="Galculator"] floating enable, move absolute center
+for_window [class="gnome-calculator"] floating enable, move absolute center
 
 
 for_window [class="main.py" title="Cronômetro"] floating enable, move position center
