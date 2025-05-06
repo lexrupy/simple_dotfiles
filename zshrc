@@ -18,6 +18,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 REPORTTIME=10 # print elapsed time when more than 10 seconds
+export SUDO_ASKPASS=/usr/bin/ssh-askpass
 
 alias clock="tty-clock -C 4"
 
@@ -108,6 +109,17 @@ function docxgrep() {
             echo "$arg"
         fi
     done
+}
+
+
+function show_grub_menu {
+#    echo ""
+#    grub-install --version | awk '{print $2,$3}'
+#    echo ""
+    sudo -A awk -F\' '
+        /^menuentry/ || /^submenu/ {print "  " $2};
+        /[[:space:]]menuentry[[:space:]]/ {print "       " $2}
+    ' /boot/grub/grub.cfg
 }
 
 
