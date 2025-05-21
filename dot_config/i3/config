@@ -316,9 +316,9 @@ assign [class="Slack"] $ws6
 
 for_window [class="Docker Desktop"] move container to workspace $ws9;
 
-for_window [title="WhatsApp Web"] move container to workspace $ws5; floating disable; workspace $ws5
+# for_window [title="WhatsApp Web"] move container to workspace $ws5; floating disable; workspace $ws5
 # Popup windows floating
-for_window [title="^(?!.*WhatsApp Web).*$" class="Google-chrome" window_role="pop-up" ] floating enable, resize set 1200 700, move position center
+# for_window [title="^(?!.*WhatsApp Web).*$" class="Google-chrome" window_role="pop-up" ] floating enable, resize set 1200 700, move position center
 # Get pop-up to the same workspace of parent window
 for_window [class="Google-chrome" window_role="pop-up"] [title_format="%c"] move container to workspace [con_id=__focused__]
 # All the other browser windows go to workspace 3
@@ -336,6 +336,10 @@ for_window [window_type="splash"] floating enable, move position center
 for_window [class="Blueman-manager"] floating enable, move position center, resize set 640 440, border normal
 for_window [class="Pavucontrol"] floating enable, move position center, resize 1080 720, border normal
 for_window [class="ksshaskpass"] floating enable, move position center
+for_window [class="Galculator"] floating enable, move position center
+for_window [class="Qalculate-gtk"] floating enable, move position center
+for_window [class="XCalc"] floating enable, move position center
+for_window [class="gnome-calculator"] floating enable, move position center
 
 # Kill the window when middle click on title border
 # bindsym --release --border $mod+button2 kill
