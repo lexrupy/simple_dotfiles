@@ -390,4 +390,4 @@ bindsym $mod+r mode "resize"
 # }
 
 # Go to workspace 1
-exec i3-msg workspace $ws1
+exec i3-msg workspace $ws3
