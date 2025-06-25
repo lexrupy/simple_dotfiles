@@ -36,7 +36,9 @@ super + shift + b
 # Cycle wallpapers
 
 super + shift + w
-	feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+	~/.local/bin/setdesktopbg.sh
+	#	feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+
 
 # Take Flameshot Screenshot
 Print

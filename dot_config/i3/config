@@ -150,9 +150,17 @@ bindsym $mod+Return exec alacritty
 # Take Screenshot
 bindsym Print exec flameshot gui
 # Open default internet browser
-bindsym $mod+b exec x-www-browser
+bindsym $mod+b exec google-chrome --new-window
 # bindsym $mod+c exec code
-bindsym $mod+t exec alacritty --class PrimaryTerminal; exec alacritty --class SecondaryTerminal; exec x-www-browser; exec dbeaver-ce; exec whatsappweb; exec slack; 
+#bindsym $mod+t exec alacritty --class="PrimaryTerminal"; exec alacritty --class="SecondaryTerminal"; exec google-chrome --profile-directory="Profile 3" 
+
+bindsym $mod+t exec --no-startup-id sh -c '\
+  google-chrome --new-window --profile-directory="Profile 3" & \
+  google-chrome --new-window --profile-directory="Profile 3" & \
+  google-chrome --new-window --profile-directory="Profile 2" & \
+  firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+  thunar --class="PrimaryExplorer" & \
+'
 # Display Applications Menu Selector
 bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
 # cycle wallpaper
@@ -313,23 +321,27 @@ bindsym $mod+Mod1+ctrl+l move workspace to output right
 assign [class="Code"] $ws1
 assign [class="Java"] $ws4
 assign [class="DBeaver"] $ws4
-assign [class="Google-chrome"] $ws3
+assign [class="google-chrome"] $ws3
 assign [class="Navigator"] $ws3
 assign [class="Slack"] $ws6
-for_window [title="WhatsApp Web"] move container to workspace $ws5; workspace $ws5
-for_window [title="Google Chrome"] move container to workspace $ws3; workspace $ws3
+for_window [title="WhatsApp Web"] move container to workspace $ws5, workspace $ws5
+for_window [title="Google Chrome"] move container to workspace $ws3, workspace $ws3
 # Complementary Window Configuration
 for_window [class="PrimaryTerminal"] move container to workspace $ws1
 for_window [class="SecondaryTerminal"] move container to workspace $ws2
+for_window [class="ChatNavigator"] move container to workspace $ws5
+for_window [class="PrimaryExplorer"] move container to workspace $ws5
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
 for_window [class="Yad" title="Authentication"] floating enable, move position center
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
 for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
+for_window [class="system-config-printer"] floating enable, move position center
 for_window [window_type="splash"] floating enable, move position center
 for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1024 950, move position center border normal
 for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1310 1140, move position center border normal
+for_window [class="Google-chrome" window_role="pop-up"] floating enable, move position center, border normal
 # for_window [title=".*backend.*"] move container to workspace $ws8, workspace $ws8
 for_window [window_type="splash"] floating enable,move absolute center
 # for_window [title=".*backend.*"] move container to workspace $ws8

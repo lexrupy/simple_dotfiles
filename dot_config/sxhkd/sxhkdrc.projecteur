@@ -1,0 +1,12 @@
+ctrl + alt + shift + Prior
+    projecteur -c spot=on & projecteur -c spot.size.adjust=-5
+
+ctrl + alt + shift + Next
+    projecteur -c spot=on & projecteur -c spot.size.adjust=+5
+
+
+ctrl + alt + shift + equal
+    projecteur -c spot=on & projecteur -c zoom=on & projecteur -c zoom.factor=3
+
+ctrl + alt + shift + minus
+    projecteur -c spot=on & projecteur -c zoom=off & projecteur -c zoom.factor=0
