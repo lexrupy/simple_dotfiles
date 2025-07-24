@@ -27,6 +27,7 @@ RES = 1
 
 CONFIG_FILE = os.path.expanduser("~/.config/cameras-qt/config.ini")
 
+
 # count = len(IALLCAMERAS)
 # cols = int(math.ceil(math.sqrt(count)))
 # rows = int(math.ceil(count / cols))
@@ -367,15 +368,16 @@ class MosaicoRTSP(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    splash = QSplashScreen()
+
+    pixmap = QPixmap(400, 200)
+    pixmap.fill(Qt.black)
+
+    # splash = QSplashScreen(pixmap)
+    splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
     splash.showMessage(
         "Carregando Câmeras...", Qt.AlignBottom | Qt.AlignCenter, Qt.white
     )
-    splash.setStyleSheet("background-color: black; color: white; font-size: 16px;")
     splash.show()
-
-    QApplication.processEvents()  # força atualização do splash
-    time.sleep(1.5)
 
     window = MosaicoRTSP()
     window.showMaximized()
