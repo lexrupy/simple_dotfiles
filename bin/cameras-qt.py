@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QMenu,
     QAction,
+    QSplashScreen,
 )
 from PyQt5.QtGui import QImage, QPixmap, QDrag
 from PyQt5.QtCore import QTimer, Qt, QMimeData
@@ -366,6 +367,19 @@ class MosaicoRTSP(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    splash = QSplashScreen()
+    splash.showMessage(
+        "Carregando Câmeras...", Qt.AlignBottom | Qt.AlignCenter, Qt.white
+    )
+    splash.setStyleSheet("background-color: black; color: white; font-size: 16px;")
+    splash.show()
+
+    QApplication.processEvents()  # força atualização do splash
+    time.sleep(1.5)
+
     window = MosaicoRTSP()
     window.showMaximized()
+
+    splash.finish(window)  # fecha o splash depois que a janela abriu
+
     sys.exit(app.exec_())
