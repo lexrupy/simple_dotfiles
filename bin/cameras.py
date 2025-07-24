@@ -29,6 +29,8 @@ def embed_mplayer(parent, rtsp_url):
         "--geometry=0:0",  # ignorado com wid, mas deixa por garantia
         "--fullscreen=no",
         "--quiet",
+        "--no-osd-bar",
+        "--osc=no",
         "--cache=yes",
         "--cache-secs=3.0",
         "--framedrop=vo",
