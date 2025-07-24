@@ -338,6 +338,10 @@ for_window [class="Yad" title="Authentication"] floating enable, move position c
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
 for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
 for_window [class="system-config-printer"] floating enable, move position center
+for_window [class="PySpotlight"] floating enable, move position center, border normal
+for_window [class="SpotPress"] floating enable, move position center, border normal
+for_window [title="admin-tools Mesclar PDFs"] floating enable, move position center, border normal
+for_window [title="admin-tools Servidor HTTP"] floating enable, move position center, border normal
 for_window [window_type="splash"] floating enable, move position center
 for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1024 950, move position center border normal
 for_window [class="Google-chrome" window_role="pop-up" title=".*[Adicionar|Modificar]\s.*"] floating enable, resize set 1310 1140, move position center border normal
