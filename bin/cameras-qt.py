@@ -1,22 +1,34 @@
 #!/bin/env python3
 
+import os
 import math
 import time
 import sys
 import cv2
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QMessageBox
+import configparser
+from PyQt5.QtWidgets import (
+    QApplication,
+    QWidget,
+    QLabel,
+    QGridLayout,
+    QMessageBox,
+    QInputDialog,
+    QMenu,
+    QAction,
+)
 from PyQt5.QtGui import QImage, QPixmap, QDrag
 from PyQt5.QtCore import QTimer, Qt, QMimeData
 
-
-CAMERAS = [1, 11, 4, 2, 9, 3, 6, 7, 8]
+ALL_CAMERAS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 DVR_IP = "10.216.62.6"
 DVR_PORT = "554"
 RES = 1
 
-count = len(CAMERAS)
-cols = int(math.ceil(math.sqrt(count)))
-rows = int(math.ceil(count / cols))
+CONFIG_FILE = os.path.expanduser("~/.config/cameras-qt/config.ini")
+
+# count = len(IALLCAMERAS)
+# cols = int(math.ceil(math.sqrt(count)))
+# rows = int(math.ceil(count / cols))
 
 
 class CameraViewer(QLabel):
@@ -103,6 +115,15 @@ class CameraViewer(QLabel):
 class MosaicoRTSP(QWidget):
     def __init__(self):
         super().__init__()
+        self.cameras = []
+        self.config = configparser.ConfigParser()
+        self.load_config()
+
+        count = len(self.cameras)
+        self.cols = int(math.ceil(math.sqrt(count)))
+        self.rows = int(math.ceil(count / self.cols))
+
+        self.viewers = []
         self._last_esc_time = 0
         self.setWindowTitle("Mosaico RTSP")
         self.layout = QGridLayout(self)
@@ -114,14 +135,9 @@ class MosaicoRTSP(QWidget):
         self.original_positions = {}
         self.current_fullscreen = None
 
-        for index, cam in enumerate(CAMERAS):
-            viewer = CameraViewer(cam)
-            row = index // cols
-            col = index % cols
-            viewer.setAcceptDrops(True)
-            self.layout.addWidget(viewer, row, col)
-            self.viewers.append(viewer)
-            self.original_positions[viewer] = (row, col)
+        self.viewer_del = None
+
+        self.reload_cameras()
 
     def toggle_fullscreen(self, viewer):
         if not self.fullscreen_mode:
@@ -129,7 +145,7 @@ class MosaicoRTSP(QWidget):
                 if v != viewer:
                     v.hide()
             viewer.change_res(0)
-            self.layout.addWidget(viewer, 0, 0, rows, cols)
+            self.layout.addWidget(viewer, 0, 0, self.rows, self.cols)
             self.fullscreen_mode = True
             self.current_fullscreen = viewer
         else:
@@ -156,6 +172,56 @@ class MosaicoRTSP(QWidget):
             c1,
         )
 
+    def reorganize_grid(self):
+        count = len(self.cameras)
+        self.cols = int(math.ceil(math.sqrt(count)))
+        self.rows = int(math.ceil(count / self.cols))
+        self.original_positions.clear()
+        for i, viewer in enumerate(self.viewers):
+            self.layout.removeWidget(viewer)
+            row = i // self.cols
+            col = i % self.cols
+            self.layout.addWidget(viewer, row, col)
+            self.original_positions[viewer] = (row, col)
+
+    def remove_camera(self, cam):
+        self.viewer_del = None
+        # encontra viewer
+        viewer = next((v for v in self.viewers if v.camera == cam), None)
+        if not viewer:
+            return
+        # remove do layout e fecha
+        self.layout.removeWidget(viewer)
+        viewer.close()
+        viewer.deleteLater()
+        # remove das listas
+        self.viewers.remove(viewer)
+        self.cameras.remove(cam)
+        # reorganiza grid
+        self.reorganize_grid()
+        # salva config
+        self.save_config()
+
+    def add_camera(self, cam):
+        if cam in self.cameras:
+            return
+        viewer = CameraViewer(cam)
+        viewer.setAcceptDrops(True)
+        self.viewers.append(viewer)
+        self.cameras.append(cam)
+        # recalcula grid
+        count = len(self.cameras)
+        self.cols = int(math.ceil(math.sqrt(count)))
+        self.rows = int(math.ceil(count / self.cols))
+        # adiciona no layout na última posição
+        index = len(self.viewers) - 1
+        row = index // self.cols
+        col = index % self.cols
+        viewer.setAcceptDrops(True)
+        self.layout.addWidget(viewer, row, col)
+        self.original_positions[viewer] = (row, col)
+        self.save_config()
+
     def closeEvent(self, event):
         for viewer in self.viewers:
             viewer.close()
@@ -177,15 +243,7 @@ class MosaicoRTSP(QWidget):
                 # Sai do fullscreen do viewer atual
                 self.toggle_fullscreen(self.current_fullscreen)
             if hasattr(self, "_last_esc_time") and (now - self._last_esc_time) < 1.0:
-                reply = QMessageBox.question(
-                    self,
-                    "Encerrar",
-                    "Deseja realmente sair?",
-                    QMessageBox.Yes | QMessageBox.No,
-                    QMessageBox.No,
-                )
-                if reply == QMessageBox.Yes:
-                    QApplication.quit()
+                self.do_exit()
             self._last_esc_time = now
         else:
             super().keyPressEvent(event)
@@ -196,9 +254,114 @@ class MosaicoRTSP(QWidget):
     def dropEvent(self, e):
         cam_id = int(e.mimeData().text())
         source = find_viewer_by_camera(cam_id)
-        target_pos = layout.indexOf(self).row(), layout.indexOf(self).column()
+        # target_pos = layout.indexOf(self).row(), layout.indexOf(self).column()
         swap_layout_positions(source, self)
         e.accept()
+
+    def do_exit(self):
+        reply = QMessageBox.question(
+            self,
+            "Encerrar",
+            "Deseja realmente sair?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+        if reply == QMessageBox.Yes:
+            QApplication.quit()
+
+    def load_config(self):
+        if os.path.exists(CONFIG_FILE):
+            self.config.read(CONFIG_FILE)
+            if "Cameras" in self.config:
+                cameras_str = self.config["Cameras"].get("order", "")
+                if cameras_str:
+                    self.cameras = list(map(int, cameras_str.split(",")))
+                else:
+                    self.cameras = CAMERAS.copy()
+            else:
+                self.cameras = CAMERAS.copy()
+        else:
+            self.cameras = CAMERAS.copy()
+
+    def save_config(self):
+        if "Cameras" not in self.config:
+            self.config["Cameras"] = {}
+        self.config["Cameras"]["order"] = ",".join(str(cam) for cam in self.cameras)
+        config_dir = os.path.dirname(CONFIG_FILE)
+        os.makedirs(config_dir, exist_ok=True)
+        with open(CONFIG_FILE, "w") as f:
+            self.config.write(f)
+
+    def contextMenuEvent(self, event):
+        widget_clicado = self.childAt(event.pos())
+        menu = QMenu(self)
+        add_action = QAction("Adicionar câmera", self)
+        remove_action = QAction("Remover câmera", self)
+        exit_action = QAction("Sair", self)
+        exit_action.triggered.connect(self.do_exit)
+        add_action.triggered.connect(self.add_camera_dialog)
+        if isinstance(widget_clicado, CameraViewer):
+            self.viewer_del = widget_clicado
+            remove_action.setEnabled(True)
+        else:
+            self.viewer_del = None
+            remove_action.setEnabled(False)
+        remove_action.triggered.connect(self.remove_camera_dialog)
+        menu.addAction(add_action)
+        menu.addAction(remove_action)
+        menu.addAction(exit_action)
+        menu.exec(event.globalPos())
+
+    def add_camera_dialog(self):
+
+        disponiveis = [str(c) for c in ALL_CAMERAS if c not in self.cameras]
+        if not disponiveis:
+            QMessageBox.information(
+                self, "Nenhuma disponível", "Todas as câmeras já foram adicionadas."
+            )
+            return
+        cam_str, ok = QInputDialog.getItem(
+            self, "Adicionar câmera", "Escolha a câmera:", disponiveis, 0, False
+        )
+        if ok and cam_str:
+            self.add_camera(int(cam_str))
+
+    def remove_camera_dialog(self):
+        if self.viewer_del is None:
+            return
+        if not self.cameras:
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Remover câmera",
+            "Deseja remover esta câmera?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        if reply == QMessageBox.Yes:
+            # self.remover_viewer(self.viewer_selecionado_para_remocao)
+            cam = self.viewer_del.camera
+            self.remove_camera(cam)
+
+    def reload_cameras(self):
+        for v in self.viewers:
+            v.close()
+            self.layout.removeWidget(v)
+            v.deleteLater()
+        self.viewers.clear()
+        count = len(self.cameras)
+        self.cols = int(math.ceil(math.sqrt(count)))
+        self.rows = int(math.ceil(count / self.cols))
+        self.original_positions.clear()
+
+        for index, cam in enumerate(self.cameras):
+            viewer = CameraViewer(cam)
+            row = index // self.cols
+            col = index % self.cols
+            viewer.setAcceptDrops(True)
+            self.layout.addWidget(viewer, row, col)
+            self.viewers.append(viewer)
+            self.original_positions[viewer] = (row, col)
 
 
 if __name__ == "__main__":
