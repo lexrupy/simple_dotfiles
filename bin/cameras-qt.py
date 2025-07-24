@@ -278,11 +278,11 @@ class MosaicoRTSP(QWidget):
                 if cameras_str:
                     self.cameras = list(map(int, cameras_str.split(",")))
                 else:
-                    self.cameras = CAMERAS.copy()
+                    self.cameras = ALL_CAMERAS.copy()
             else:
-                self.cameras = CAMERAS.copy()
+                self.cameras = ALL_CAMERAS.copy()
         else:
-            self.cameras = CAMERAS.copy()
+            self.cameras = ALL_CAMERAS.copy()
 
     def save_config(self):
         if "Cameras" not in self.config:
