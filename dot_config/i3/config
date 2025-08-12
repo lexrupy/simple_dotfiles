@@ -44,6 +44,7 @@ title_align center
 #exec --no-startup-id nitrogen --restore
 exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+# Requires python3-i3ipc package
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 # exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 exec --no-startup-id ~/.local/bin/setdesktopbg.sh
