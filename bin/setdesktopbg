@@ -22,7 +22,7 @@ tmp_img="/tmp/bg_main.jpg"          # tela esquerda (sem IP)
 tmp_mirror="/tmp/bg_mirror.jpg"     # tela direita (com IP)
 
 # Obtém IPs
-LAN_IP=$(ip -o -4 addr show | grep -E 'enp|eth' | awk '{print "CABO: " $4}' | cut -d/ -f1)
+LAN_IP=$(ip -o -4 addr show | grep -E 'eno|enp|eth' | awk '{print "CABO: " $4}' | cut -d/ -f1)
 WIFI_IP=$(ip -o -4 addr show | grep -E 'wlp|wlan|wlo' | awk '{print "WIFI: " $4}' | cut -d/ -f1)
 SSID=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION dev | awk -F: '$2=="wifi" && $3=="connected" {print $4}')
 
@@ -34,16 +34,23 @@ TEXT=" $LAN_IP\n$WIFI_IP\nSSID: $SSID"
 convert -background '#00000080' -fill white -font Agave-Nerd-Font-Mono-Regular -pointsize 24 label:"$TEXT" /tmp/text_overlay.png
 
 
-
-# Imagem da esquerda: apenas copia (sem IP)
-cp "$mirror_path" "$tmp_mirror"
+if  [ -f $mirror_path ]; then
+  # Imagem da esquerda: apenas copia (sem IP)
+  cp "$mirror_path" "$tmp_mirror"
+fi
 
 # Imagem da direita: aplica o IP no canto inferior direito
 convert "$img_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_img"
 
 
 # Define o papel de parede com feh
-feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+#
+if [ -f $mirror_path ]; then
+    feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+else
+
+    feh --bg-fill "$tmp_img"
+fi
 
 # Exibe qual imagem foi usada
 echo $new
