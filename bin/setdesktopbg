@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# #
+# new=$(find /home/alexandre/Imagens/wallpapers/*.jpg -type f -printf "%f\n" | shuf | sed -n 1p)
+#
+# feh --bg-fill /home/alexandre/Imagens/wallpapers/$new --bg-fill /home/alexandre/Imagens/wallpapers/mirror/$new
+#
+# echo $new
+
+
+# Caminho base
+wall_dir="/home/alexandre/Imagens/wallpapers"
+mirror_dir="/home/alexandre/Imagens/wallpapers/mirror"
+
+# Seleciona imagem aleatória
+new=$(find "$wall_dir" -name '*.jpg' -printf "%f\n" | shuf -n 1)
+
+img_path="$wall_dir/$new"
+mirror_path="$mirror_dir/$new"
+
+tmp_img="/tmp/bg_main.jpg"          # tela esquerda (sem IP)
+tmp_mirror="/tmp/bg_mirror.jpg"     # tela direita (com IP)
+
+# Obtém IPs
+LAN_IP=$(ip -o -4 addr show | grep -E 'enp|eth' | awk '{print "CABO: " $4}' | cut -d/ -f1)
+WIFI_IP=$(ip -o -4 addr show | grep -E 'wlp|wlan|wlo' | awk '{print "WIFI: " $4}' | cut -d/ -f1)
+SSID=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION dev | awk -F: '$2=="wifi" && $3=="connected" {print $4}')
+
+TEXT=" $LAN_IP\n$WIFI_IP\nSSID: $SSID"
+
+# Gera imagem com o texto fixo (sempre mesmo tamanho)
+# convert -background '#00000080' -fill white -font DejaVu-Sans -pointsize 26 label:"$TEXT" /tmp/text_overlay.png
+# convert -background '#00000080' -fill white -font DejaVu-Sans-Mono -pointsize 24 label:"$TEXT" /tmp/text_overlay.png
+convert -background '#00000080' -fill white -font Agave-Nerd-Font-Mono-Regular -pointsize 24 label:"$TEXT" /tmp/text_overlay.png
+
+
+
+# Imagem da esquerda: apenas copia (sem IP)
+cp "$mirror_path" "$tmp_mirror"
+
+# Imagem da direita: aplica o IP no canto inferior direito
+convert "$img_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_img"
+
+
+# Define o papel de parede com feh
+feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+
+# Exibe qual imagem foi usada
+echo $new
+
