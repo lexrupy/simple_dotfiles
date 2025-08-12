@@ -3,7 +3,7 @@ require 'erb'
 
 desc "install the dot files into user's home directory"
 task :install do
-  if File.exists?("#{ENV['HOME']}/.bash")
+  if File.exist?("#{ENV['HOME']}/.bash")
     puts "You already have a ~/.bash file or directory, you will need to remove it manually before continue. Make sure that it is not a system directory or you have personal data inside it."
     exit
   end
