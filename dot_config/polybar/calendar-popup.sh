@@ -11,31 +11,36 @@ case "$1" in
     if [ "$(xdotool getwindowfocus getwindowname)" = "yad-calendar" ]; then
         exit 0
     fi
+    # Detecta se está rodando bspwm
+    if command -v bspc >/dev/null 2>&1; then
+        # Pega posição do mouse e resolução da tela
+        eval "$(xdotool getmouselocation --shell)"
+        eval "$(xdotool getdisplaygeometry --shell)"
 
-    # eval "$(xdotool getmouselocation --shell)"
-    # eval "$(xdotool getdisplaygeometry --shell)"
-    #
-    # # X
-    # if [ "$((X + YAD_WIDTH / 2 + BORDER_SIZE))" -gt "$WIDTH" ]; then #Right side
-    #     : $((pos_x = WIDTH - YAD_WIDTH - BORDER_SIZE))
-    # elif [ "$((X - YAD_WIDTH / 2 - BORDER_SIZE))" -lt 0 ]; then #Left side
-    #     : $((pos_x = BORDER_SIZE))
-    # else #Center
-    #     : $((pos_x = X - YAD_WIDTH / 2))
-    # fi
-    #
-    # # Y
-    # if [ "$Y" -gt "$((HEIGHT / 2))" ]; then #Bottom
-    #     : $((pos_y = HEIGHT - YAD_HEIGHT - BAR_HEIGHT - BORDER_SIZE))
-    # else #Top
-    #     : $((pos_y = BAR_HEIGHT + BORDER_SIZE))
-    # fi
+        # Calcula posição X (tenta centralizar a janela no mouse, respeitando limites)
+        if [ "$((X + YAD_WIDTH / 2 + BORDER_SIZE))" -gt "$WIDTH" ]; then
+            pos_x=$((WIDTH - YAD_WIDTH - BORDER_SIZE))
+        elif [ "$((X - YAD_WIDTH / 2 - BORDER_SIZE))" -lt 0 ]; then
+            pos_x=$BORDER_SIZE
+        else
+            pos_x=$((X - YAD_WIDTH / 2))
+        fi
 
-    # yad --calendar --undecorated --fixed --close-on-unfocus --no-buttons \
-    #     --width="$YAD_WIDTH" --height="$YAD_HEIGHT" --posx="$pos_x" --posy="$pos_y" \
-    #     --title="yad-calendar" --borders=0 >/dev/null &
-    # yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 >/dev/null &
-    yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus >/dev/null &
+        # Calcula posição Y (se mouse estiver na metade inferior da tela, abre acima, senão abaixo da barra)
+        if [ "$Y" -gt "$((HEIGHT / 2))" ]; then
+            pos_y=$((HEIGHT - YAD_HEIGHT - BAR_HEIGHT - BORDER_SIZE))
+        else
+            pos_y=$((BAR_HEIGHT + BORDER_SIZE))
+        fi
+
+        # Abre yad com posição fixa, título para detectar no bspwm e sem borda
+        yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus \
+            --width="$YAD_WIDTH" --height="$YAD_HEIGHT" --posx="$pos_x" --posy="$pos_y" >/dev/null &
+
+    else
+
+        yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus >/dev/null &
+    fi
     ;;
 *)
     echo "$DATE"
