@@ -66,14 +66,17 @@ bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=tr
 
 # Autorun applications
 #
-
+setxkbmap -layout br 
 xscreensaver -no-splash &
+# nm-applet &
+# blueman-applet &
+
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 picom --experimental-backends &
 $HOME/.local/bin/launch_polybar for_bspwm -r &
-#feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 $HOME/.local/bin/setdesktopbg.sh
 $HOME/.local/bin/bspwm-cleanfullscreen &
+flatpak run org.deskflow.deskflow &
 #xset s 299
 #xss-lock --transfer-sleep-lock -- i3lock-fancy -n &
 #nm-applet &

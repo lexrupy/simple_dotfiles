@@ -18,7 +18,7 @@ super + d
 	rofi -modi drun,run -show drun
 
 super + x
-	rofi -show power-menu -modi power-menu:rofi-power-menu
+	rofi -show power-menu -modi power-menu:"$HOME/.local/bin/rofi-power-menu"
 
 # Web Browser
 super + b 
@@ -76,13 +76,18 @@ XF86AudioLowerVolume
 XF86AudioMute
 	amixer -q -D pulse sset Master toggle
 
+XF86MonBrightnessUp
+	brightnessctl set 5%+
+	
+XF86MonBrightnessDown
+	brightnessctl set 5%-
 #
 # bspwm hotkeys
 #
 
 # quit/restart bspwm
-# super + shift + {e,r}
-# 	bspc {quit,wm -r}
+# super + shift + ctrl + {e,r}
+#  	bspc {quit,wm -r}
 super + shift + r
  	bspc wm -r
 
@@ -106,9 +111,16 @@ super + g
 # state/flags
 #
 
-# set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+# # set the window state
+# super + {t,shift + t,s,f}
+# 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+super + shift + space
+	bspc node -t '~floating'
+
+super + f
+  bspc node -t '~fullscreen'
+
 
 # set the node flags
 super + ctrl + {m,x,y,z}

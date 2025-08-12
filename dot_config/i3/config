@@ -167,7 +167,7 @@ bindsym $mod+t exec --no-startup-id sh -c '\
   thunar --class="PrimaryExplorer" & \
 '
 # Display Applications Menu Selector
-bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
+bindsym $mod+x exec "rofi -show power-menu -modi power-menu:$HOME/.local/bin/rofi-power-menu"
 # cycle wallpaper
 # bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/setdesktopbg.sh
