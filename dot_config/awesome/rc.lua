@@ -1,5 +1,6 @@
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
+---@diagnostic disable: undefined-global
 pcall(require, "luarocks.loader")
 
 -- Standard awesome library
@@ -110,9 +111,9 @@ local myawesomemenu = {
 			hotkeys_popup.show_help(nil, awful.screen.focused())
 		end,
 	},
-	{ "manual", terminal .. " -e man awesome" },
+	{ "manual",      terminal .. " -e man awesome" },
 	{ "edit config", editor_cmd .. " " .. awesome.conffile },
-	{ "restart", awesome.restart },
+	{ "restart",     awesome.restart },
 	{
 		"quit",
 		function()
@@ -233,12 +234,40 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- -- Função para criar tags por tela
+-- local function create_tags()
+-- 	-- Tags para a primeira tela
+-- 	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, screen[1], awful.layout.layouts[1])
+--
+-- 	-- Se houver uma segunda tela, cria tags nela
+-- 	if screen.count() >= 2 then
+-- 		awful.tag({ "A", "B", "C", "D", "E", "F", "G", "H", "I" }, screen[2], awful.layout.layouts[1])
+-- 	end
+-- end
+--
+-- -- Executa quando as telas são detectadas
+-- awful.screen.connect_for_each_screen(function(s)
+-- 	-- Criar tags apenas na inicialização (primeira execução)
+-- 	if s.index == 1 then
+-- 		create_tags()
+-- 	end
+-- end)
+
 awful.screen.connect_for_each_screen(function(s)
 	-- Wallpaper
 	-- set_wallpaper(s)
 
 	-- Each screen has its own tag table.
-	awful.tag({ "1", "2", "3", "4", "5" }, s, awful.layout.layouts[1])
+	-- awful.tag({ "1", "2", "3", "4", "5" }, s, awful.layout.layouts[1])
+	if screen.count() == 1 then
+		awful.tag({ "1", "2", "3", "4", "5", "6", "7" }, s, awful.layout.layouts[1])
+	else
+		if s.index == 1 then
+			awful.tag({ "5", "6", "7", "8", "9", "0" }, s, awful.layout.layouts[1])
+		elseif s.index == 2 then
+			awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[1])
+		end
+	end
 
 	-- Create a promptbox for each screen
 	s.mypromptbox = awful.widget.prompt()
@@ -292,7 +321,7 @@ awful.screen.connect_for_each_screen(function(s)
 				s.mypromptbox,
 			},
 			s.mytasklist, -- Middle widget
-			{ -- Right widgets
+			{          -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
 				ram_widget(),
 				my_sep_widget,
@@ -462,15 +491,25 @@ local clientkeys = gears.table.join(
 		awful.client.floating.toggle,
 		{ description = "toggle floating", group = "client" }
 	),
+	awful.key({ modkey }, "t", function(c)
+		awful.spawn.with_shell([[
+	 			google-chrome --new-window --profile-directory="Profile 3" & \
+	 			google-chrome --new-window --profile-directory="Profile 3" & \
+	 			google-chrome --new-window --profile-directory="Profile 2" & \
+	 			firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+	 			thunar --class="PrimaryExplorer" & \
+		]])
+	end),
+
 	awful.key({ modkey, "Control" }, "Return", function(c)
 		c:swap(awful.client.getmaster())
 	end, { description = "move to master", group = "client" }),
 	awful.key({ modkey }, "o", function(c)
 		c:move_to_screen()
 	end, { description = "move to screen", group = "client" }),
-	awful.key({ modkey }, "t", function(c)
-		c.ontop = not c.ontop
-	end, { description = "toggle keep on top", group = "client" }),
+	-- awful.key({ modkey }, "t", function(c)
+	-- 	c.ontop = not c.ontop
+	-- end, { description = "toggle keep on top", group = "client" }),
 	--awful.key({ modkey,           }, "n",
 	--    function (c)
 	--        -- The client currently has the input focus, so it cannot be
@@ -498,48 +537,96 @@ local clientkeys = gears.table.join(
 	)
 )
 
+-- Mapeamento de número -> tag name
+local tag_map = {
+	[1] = "1",
+	[2] = "2",
+	[3] = "3",
+	[4] = "4",
+	[5] = "5",
+	[6] = "6",
+	[7] = "6",
+	[8] = "8",
+	[9] = "9",
+	[0] = "0", -- 0 representa a tag "X"
+}
+
+for i = 0, 9 do
+	local key = "#" .. ((i == 0) and 19 or (i + 9)) -- 0 = 19, 1 = 10, etc.
+	local tagname = tag_map[i]
+
+	globalkeys = gears.table.join(
+		globalkeys,
+		awful.key({ modkey }, key, function()
+			for s in screen do
+				local tag = awful.tag.find_by_name(s, tagname)
+				if tag then
+					tag:view_only()
+					awful.screen.focus(s)
+					break
+				end
+			end
+		end, { description = "view tag " .. tagname, group = "tag" }),
+
+		awful.key({ modkey, "Shift" }, key, function()
+			if client.focus then
+				for s in screen do
+					local tag = awful.tag.find_by_name(s, tagname)
+					if tag then
+						client.focus:move_to_tag(tag)
+						awful.screen.focus(s) -- foca na tela da tag
+						tag:view_only() -- muda para a tag
+						-- client.focus:raise() -- garante que a janela fique em cima
+						break
+					end
+				end
+			end
+		end, { description = "move client to tag " .. tagname, group = "tag" })
+	)
+end
+
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
-	globalkeys = gears.table.join(
-		globalkeys,
-		-- View tag only.
-		awful.key({ modkey }, "#" .. i + 9, function()
-			local screen = awful.screen.focused()
-			local tag = screen.tags[i]
-			if tag then
-				tag:view_only()
-			end
-		end, { description = "view tag #" .. i, group = "tag" }),
-		-- Toggle tag display.
-		awful.key({ modkey, "Control" }, "#" .. i + 9, function()
-			local screen = awful.screen.focused()
-			local tag = screen.tags[i]
-			if tag then
-				awful.tag.viewtoggle(tag)
-			end
-		end, { description = "toggle tag #" .. i, group = "tag" }),
-		-- Move client to tag.
-		awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
-			if client.focus then
-				local tag = client.focus.screen.tags[i]
-				if tag then
-					client.focus:move_to_tag(tag)
-				end
-			end
-		end, { description = "move focused client to tag #" .. i, group = "tag" }),
-		-- Toggle tag on focused client.
-		awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function()
-			if client.focus then
-				local tag = client.focus.screen.tags[i]
-				if tag then
-					client.focus:toggle_tag(tag)
-				end
-			end
-		end, { description = "toggle focused client on tag #" .. i, group = "tag" })
-	)
-end
+-- for i = 1, 9 do
+-- 	globalkeys = gears.table.join(
+-- 		globalkeys,
+-- 		-- View tag only.
+-- 		awful.key({ modkey }, "#" .. i + 9, function()
+-- 			local screen = awful.screen.focused()
+-- 			local tag = screen.tags[i]
+-- 			if tag then
+-- 				tag:view_only()
+-- 			end
+-- 		end, { description = "view tag #" .. i, group = "tag" }),
+-- 		-- Toggle tag display.
+-- 		awful.key({ modkey, "Control" }, "#" .. i + 9, function()
+-- 			local screen = awful.screen.focused()
+-- 			local tag = screen.tags[i]
+-- 			if tag then
+-- 				awful.tag.viewtoggle(tag)
+-- 			end
+-- 		end, { description = "toggle tag #" .. i, group = "tag" }),
+-- 		-- Move client to tag.
+-- 		awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
+-- 			if client.focus then
+-- 				local tag = client.focus.screen.tags[i]
+-- 				if tag then
+-- 					client.focus:move_to_tag(tag)
+-- 				end
+-- 			end
+-- 		end, { description = "move focused client to tag #" .. i, group = "tag" }),
+-- 		-- Toggle tag on focused client.
+-- 		awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function()
+-- 			if client.focus then
+-- 				local tag = client.focus.screen.tags[i]
+-- 				if tag then
+-- 					client.focus:toggle_tag(tag)
+-- 				end
+-- 			end
+-- 		end, { description = "toggle focused client on tag #" .. i, group = "tag" })
+-- 	)
+-- end
 
 local clientbuttons = gears.table.join(
 	awful.button({}, 1, function(c)
@@ -608,7 +695,7 @@ awful.rules.rules = {
 			role = {
 				"AlarmWindow", -- Thunderbird's calendar.
 				"ConfigManager", -- Thunderbird's about:config.
-				"pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
+				"pop-up",    -- e.g. Google Chrome's (detached) Developer Tools.
 			},
 		},
 		properties = { floating = true },
@@ -632,6 +719,18 @@ awful.rules.rules = {
 
 	-- Start windows as slave by default
 	-- { rule = { }, properties = { },  callback = awful.client.setslave }
+	{
+		rule = { class = "google-chrome" },
+		properties = { screen = 2, tag = "3" },
+	},
+	{
+		rule = { class = "Firefox", instance = "ChatNavigator" },
+		properties = { screen = 1, tag = "1" },
+	},
+	{
+		rule = { class = "Thunar", instance = "PrimaryExplorer" },
+		properties = { screen = 1, tag = "1" },
+	},
 }
 -- }}}
 
