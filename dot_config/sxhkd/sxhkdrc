@@ -28,6 +28,15 @@ super + b
 super + c
 	whatsappweb
 
+super + t
+    sh -c '\
+    google-chrome --new-window --profile-directory="Profile 3" & \
+    google-chrome --new-window --profile-directory="Profile 3" & \
+    google-chrome --new-window --profile-directory="Profile 2" & \
+    firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+    thunar --class="PrimaryExplorer" & \
+    '
+
 # Web Browser Anonymous
 
 super + shift + b
