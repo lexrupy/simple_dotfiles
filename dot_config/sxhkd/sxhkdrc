@@ -37,13 +37,10 @@ super + shift + b
 
 super + shift + w
 	~/.local/bin/setdesktopbg.sh
-	#	feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
-
 
 # Take Flameshot Screenshot
 Print
 	flameshot gui
-
 
 # Call ScrathPad script
 super + minus 
@@ -65,7 +62,6 @@ super + alt + ctrl + h
 super + Escape
 	pkill -USR1 -x sxhkd
 
-
 # Media Hotkeys
 XF86AudioRaiseVolume
 	amixer -q -D pulse sset Master 5%+ 
@@ -85,9 +81,11 @@ XF86MonBrightnessDown
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
-# super + shift + ctrl + {e,r}
-#  	bspc {quit,wm -r}
+# Quit bspwm
+super + shift + ctrl + e
+	bspc quit
+
+# Restart bspwm
 super + shift + r
  	bspc wm -r
 
@@ -134,10 +132,6 @@ super + ctrl + {m,x,y,z}
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,cedilla,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous window in the current desktop
 super + {_,shift + }c
 	bspc node -f {next,prev}.local.!hidden.window
@@ -156,9 +150,13 @@ super + {o,i}
 	bspc node {older,newer} -f; \
 	bspc wm -h on
 
-# focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+# Focus desktop N
+super + {1-9,0}
+    bspc desktop -f "^{1-9,10}"
+
+# Move window to desktop N and follow
+super + shift + {1-9,0}
+    bspc node -d  "^{1-9,10}" --follow
 
 #
 # preselect
