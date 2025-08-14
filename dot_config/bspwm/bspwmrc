@@ -69,7 +69,7 @@ bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=tr
 # Autorun applications
 #
 setxkbmap -layout br 
-xscreensaver -no-splash &
+# xscreensaver -no-splash &
 # nm-applet &
 # blueman-applet &
 
@@ -85,5 +85,5 @@ flatpak run org.deskflow.deskflow &
 #nm-applet &
 #xfce-power-manager &
 dex --autostart --environment bspwm &
-bspc desktop -f ^3 --follow
+bspc desktop -f ^1 --follow
 
