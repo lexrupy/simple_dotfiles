@@ -111,9 +111,9 @@ local myawesomemenu = {
 			hotkeys_popup.show_help(nil, awful.screen.focused())
 		end,
 	},
-	{ "manual",      terminal .. " -e man awesome" },
+	{ "manual", terminal .. " -e man awesome" },
 	{ "edit config", editor_cmd .. " " .. awesome.conffile },
-	{ "restart",     awesome.restart },
+	{ "restart", awesome.restart },
 	{
 		"quit",
 		function()
@@ -321,7 +321,7 @@ awful.screen.connect_for_each_screen(function(s)
 				s.mypromptbox,
 			},
 			s.mytasklist, -- Middle widget
-			{          -- Right widgets
+			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
 				ram_widget(),
 				my_sep_widget,
@@ -473,7 +473,7 @@ local globalkeys = gears.table.join(
 		awful.util.spawn("flameshot gui")
 	end, { description = "Take Flameshot screenshot", group = "applications" }),
 	awful.key({ modkey, "Shift" }, "w", function()
-		awful.spawn.with_shell(home .. "/.local/bin/setdesktopbg.sh")
+		awful.spawn.with_shell(home .. "/.local/bin/setdesktopbg")
 	end, { description = "Cycle Wallpapers", group = "applications" })
 )
 
@@ -695,7 +695,7 @@ awful.rules.rules = {
 			role = {
 				"AlarmWindow", -- Thunderbird's calendar.
 				"ConfigManager", -- Thunderbird's about:config.
-				"pop-up",    -- e.g. Google Chrome's (detached) Developer Tools.
+				"pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
 			},
 		},
 		properties = { floating = true },
@@ -808,7 +808,8 @@ awful.spawn.with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-a
 -- awful.spawn.with_shell("xrandr --output HDMI-1 --auto --left-of eDP-1")
 awful.spawn.with_shell("xscreensaver --no-splash")
 awful.spawn.with_shell("picom")
-awful.spawn.with_shell(home .. "/.local/bin/setdesktopbg.sh")
+awful.spawn.with_shell(home .. "/.local/bin/cyclebg")
+awful.spawn.with_shell(home .. "/.local/bin/setdesktopbg")
 awful.spawn.with_shell("flameshot")
 awful.spawn.with_shell("setxkbmap -layout br")
 awful.spawn("nm-applet")

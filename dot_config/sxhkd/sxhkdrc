@@ -46,7 +46,7 @@ super + shift + b
 # Cycle wallpapers
 
 super + shift + w
-	$HOME/.local/bin/setdesktopbg.sh
+	$HOME/.local/bin/setdesktopbg
 
 # Take Flameshot Screenshot
 Print

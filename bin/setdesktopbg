@@ -26,7 +26,10 @@ LAN_IP=$(ip -o -4 addr show | grep -E 'eno|enp|eth' | awk '{print "CABO: " $4}' 
 WIFI_IP=$(ip -o -4 addr show | grep -E 'wlp|wlan|wlo' | awk '{print "WIFI: " $4}' | cut -d/ -f1)
 SSID=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION dev | awk -F: '$2=="wifi" && $3=="connected" {print $4}')
 
-TEXT=" $LAN_IP\n$WIFI_IP\nSSID: $SSID"
+# TEXT=" $LAN_IP\n$WIFI_IP\nSSID: $SSID"
+[ -n "$LAN_IP" ]  && TEXT+="$LAN_IP"
+[ -n "$WIFI_IP" ] && TEXT+="${TEXT:+\n}$WIFI_IP"
+[ -n "$SSID" ]    && TEXT+="${TEXT:+\n}SSID: $SSID"
 
 # Gera imagem com o texto fixo (sempre mesmo tamanho)
 # convert -background '#00000080' -fill white -font DejaVu-Sans -pointsize 26 label:"$TEXT" /tmp/text_overlay.png
@@ -46,6 +49,7 @@ convert "$img_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -c
 # Define o papel de parede com feh
 #
 if [ -f $mirror_path ]; then
+    convert "$mirror_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_mirror"
     feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
 else
 

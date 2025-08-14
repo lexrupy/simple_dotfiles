@@ -76,8 +76,8 @@ setxkbmap -layout br
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 picom --experimental-backends &
 $HOME/.local/bin/launch_polybar for_bspwm -r &
-$HOME/.local/bin/cyclebg.sh &
-$HOME/.local/bin/setdesktopbg.sh &
+$HOME/.local/bin/cyclebg &
+$HOME/.local/bin/setdesktopbg &
 $HOME/.local/bin/bspwm-cleanfullscreen &
 flatpak run org.deskflow.deskflow &
 #xset s 299
