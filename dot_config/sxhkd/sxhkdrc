@@ -29,13 +29,14 @@ super + c
 	whatsappweb
 
 super + t
-    sh -c '\
-    google-chrome --new-window --profile-directory="Profile 3" & \
-    google-chrome --new-window --profile-directory="Profile 3" & \
-    google-chrome --new-window --profile-directory="Profile 2" & \
-    firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
-    thunar --class="PrimaryExplorer" & \
-    '
+		$HOME/.local/bin/launch_work_apps
+    # sh -c '\
+    # google-chrome --new-window --profile-directory="Profile 3" & \
+    # google-chrome --new-window --profile-directory="Profile 3" & \
+    # google-chrome --new-window --profile-directory="Profile 2" & \
+    # firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+    # thunar --class="PrimaryExplorer" & \
+    # '
 
 # Web Browser Anonymous
 
@@ -45,7 +46,7 @@ super + shift + b
 # Cycle wallpapers
 
 super + shift + w
-	~/.local/bin/setdesktopbg.sh
+	$HOME/.local/bin/setdesktopbg.sh
 
 # Take Flameshot Screenshot
 Print
@@ -53,11 +54,11 @@ Print
 
 # Call ScrathPad script
 super + minus 
-	~/.config/bspwm/scripts/scpad
+	$HOME/.config/bspwm/scripts/scpad
 
 # Call PythonPad script
 super + equal
-	~/.config/bspwm/scripts/pypad
+	$HOME/.config/bspwm/scripts/pypad
 
 # Move Current Desktop Rigth Monitor
 super + alt + ctrl + l
@@ -161,11 +162,11 @@ super + {o,i}
 
 # Focus desktop N
 super + {1-9,0}
-    bspc desktop -f "^{1-9,10}"
+  bspc desktop -f "^{1-9,10}"
 
 # Move window to desktop N and follow
 super + shift + {1-9,0}
-    bspc node -d  "^{1-9,10}" --follow
+  bspc node -d  "^{1-9,10}" --follow
 
 #
 # preselect

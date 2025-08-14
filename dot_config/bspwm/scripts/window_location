@@ -9,12 +9,18 @@ title="$(xprop -id $wid '\t$0' WM_NAME | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
 role="$(xprop -id $wid '\t$0' WM_WINDOW_ROLE | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
 
 
+
+
 if echo $class | grep -q "Java"; then
     echo 'float=on desktop=^3'
 fi
 
 # Send WhatsApp Web to desktop 5
-if echo $title | grep -Eq "WhatsApp|Thunar" ; then
+if echo $title | grep -q "Thunar" ; then
+    echo 'desktop=^5'
+fi
+# Send WhatsApp Web to desktop 5
+if echo $title | grep -q "Mozilla" ; then
     echo 'desktop=^5'
 fi
 
@@ -48,4 +54,4 @@ fi
 #     echo "state=floating, monitor=$MONITOR_1 rectangle=211x196+$X+$Y "
 # fi
 
-# notify-send $class
+# notify-send $title

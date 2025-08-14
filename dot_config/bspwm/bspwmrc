@@ -56,7 +56,7 @@ bspc rule -a Thunar desktop="^7" follow=on
 bspc rule -a Blueman-manager state=floating rectangle=500x300 center=true
 bspc rule -a Chromium desktop='^3' follow=on
 bspc rule -a Google-chrome desktop='^3' follow=on
-bspc rule -a firefox desktop='^3' follow=on
+bspc rule -a firefox desktop='^5' follow=on
 bspc rule -a SshAskpass center true
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on bspc rule -a Screenkey manage=off
@@ -84,5 +84,5 @@ flatpak run org.deskflow.deskflow &
 #nm-applet &
 #xfce-power-manager &
 dex --autostart --environment bspwm &
-bspc desktop -f ^1 --follow
+bspc desktop -f ^3 --follow
 

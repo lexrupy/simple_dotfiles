@@ -1,0 +1,37 @@
+#!/bin/env bash
+
+#Abre instancias do chrome
+# google-chrome --new-window --profile-directory="Profile 3" & 
+#
+# google-chrome --new-window --profile-directory="Profile 3" & 
+#
+# google-chrome --new-window --profile-directory="Profile 2" & 
+
+chrome1=$($HOME/.local/bin/chrome.py "Profile 3")
+chrome2=$($HOME/.local/bin/chrome.py "Profile 3")
+chrome3=$($HOME/.local/bin/chrome.py "Profile 2")
+
+# Abre o Firefox
+firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" &
+
+while true; do
+    wids=$(xdotool search --class "ChatNavigator" 2>/dev/null)
+    for wid in $wids; do
+        node=$(bspc query -N -n "$wid")
+        if [ -n "$node" ]; then
+            # Janela já está em um node, abre o Thunar
+            thunar --class="PrimaryExplorer" &
+            exit 0
+        fi
+    done
+    sleep 0.2
+done
+# Espera até a janela do Firefox aparecer
+
+# Agora abre o Thunar
+# thunar --class="PrimaryExplorer" &
+#
+#
+bspc node "$chrome3" --follow 
+bspc node "$chrome3" --swap $(bspc query -N -d '^3' | tail -n 1)
+
