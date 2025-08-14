@@ -46,7 +46,9 @@ exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
 exec --no-startup-id picom --experimental-backends
-exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+#exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+
+exec_always --no-startup-id ~/.local/bin/setdesktopbg
 
 # Use exec_always so the script can restart polybar to prevent glitch on system tray
 exec_always --no-startup-id ~/.local/bin/launch_polybar for_i3 
@@ -147,9 +149,10 @@ bindsym $mod+b exec x-www-browser
 # bindsym $mod+c exec code
 # bindsym $mod+t exec alacritty --class PrimaryTerminal; exec alacritty --class SecondaryTerminal; exec x-www-browser; exec dbeaver-ce; exec whatsappweb; exec slack; 
 # Display Applications Menu Selector
-bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
+bindsym $mod+x exec rofi -show power-menu -modi power-menu:"~/.local/bin/rofi-power-menu"
 # cycle wallpaper
-bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+# bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
+bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/setdesktopbg
 # kill focused window
 bindsym $mod+shift+q kill
 # start dmenu (a program launcher)

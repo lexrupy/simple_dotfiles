@@ -53,6 +53,7 @@ bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
 bspc rule -a VirtualBoxVM desktop="^9" follow=on
 bspc rule -a Thunar desktop="^7" follow=on
 bspc rule -a Blueman-manager state=floating rectangle=500x300 center=true
+bspc rule -a SpotPress state=floating center=true
 bspc rule -a Chromium desktop='^3' follow=on
 bspc rule -a Google-chrome desktop='^3' follow=on
 bspc rule -a firefox desktop='^3' follow=on
@@ -66,17 +67,23 @@ bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=tr
 
 # Autorun applications
 #
-
+setxkbmap -layout br
 xscreensaver -no-splash &
+
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+
 picom --experimental-backends &
+
 polybar for_bspwm -r &
-feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
+
+#feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 $HOME/.local/bin/bspwm-cleanfullscreen &
+$HOME/.local/bin/setdesktopbg &
+$HOME/.local/bin/cyclebg.sh &
 #xset s 299
 #xss-lock --transfer-sleep-lock -- i3lock-fancy -n &
 #nm-applet &
 #xfce-power-manager &
 dex --autostart --environment bspwm &
-bspc desktop -f ^1 --follow
+# bspc desktop -f ^1 --follow
 
