@@ -12,7 +12,7 @@ case "$1" in
         exit 0
     fi
     # Detecta se está rodando bspwm
-    if command -v bspc >/dev/null 2>&1; then
+    if command -v bspc >/dev/null 2>&1 && bspc wm -d >/dev/null 2>&1; then
         # Pega posição do mouse e resolução da tela
         eval "$(xdotool getmouselocation --shell)"
         eval "$(xdotool getdisplaygeometry --shell)"
@@ -36,9 +36,7 @@ case "$1" in
         # Abre yad com posição fixa, título para detectar no bspwm e sem borda
         yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus \
             --width="$YAD_WIDTH" --height="$YAD_HEIGHT" --posx="$pos_x" --posy="$pos_y" >/dev/null &
-
     else
-
         yad --calendar --title="yad-calendar" --borders=0 --button=Ok:1 --close-on-unfocus >/dev/null &
     fi
     ;;
