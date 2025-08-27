@@ -23,3 +23,12 @@ rofi
 fzf
 # Debian
 psmisc
+eza
+bat
+btop
+htop
+btm
+imagemagick
+brightnessctl
+flatpak
+
