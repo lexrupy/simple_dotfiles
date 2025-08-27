@@ -16,9 +16,9 @@ if echo $class | grep -q "Java"; then
 fi
 
 # Send WhatsApp Web to desktop 5
-if echo $title | grep -q "Thunar" ; then
-    echo 'desktop=^5'
-fi
+# if echo $title | grep -q "Thunar" ; then
+#     echo 'desktop=^5'
+# fi
 # Send WhatsApp Web to desktop 5
 if echo $title | grep -q "Mozilla" ; then
     echo 'desktop=^5'

@@ -164,13 +164,13 @@ bindsym $mod+t exec --no-startup-id sh -c '\
   google-chrome --new-window --profile-directory="Profile 3" & \
   google-chrome --new-window --profile-directory="Profile 2" & \
   firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
-  thunar --class="PrimaryExplorer" & \
+  dbus-run-session thunar --class="PrimaryExplorer" & \
 '
 # Display Applications Menu Selector
 bindsym $mod+x exec "rofi -show power-menu -modi power-menu:$HOME/.local/bin/rofi-power-menu"
 # cycle wallpaper
 # bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
-bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/setdesktopbg.sh
+bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/setdesktopbg
 
 # kill focused window
 bindsym $mod+shift+q kill
@@ -335,13 +335,13 @@ for_window [title="Google Chrome"] move container to workspace $ws3, workspace $
 for_window [class="PrimaryTerminal"] move container to workspace $ws1
 for_window [class="SecondaryTerminal"] move container to workspace $ws2
 for_window [class="ChatNavigator"] move container to workspace $ws5
-for_window [class="PrimaryExplorer"] move container to workspace $ws5
+# for_window [class="PrimaryExplorer"] move container to workspace $ws5
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable
 for_window [class="Yad" title="Authentication"] floating enable, move position center
 for_window [class="Yad" title="yad-calendar"] floating enable, move position mouse, move down 25 px
-for_window [class="Pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
+for_window [class="pavucontrol"] floating enable, resize set 680 630, move position mouse, move down 25 px
 for_window [class="system-config-printer"] floating enable, move position center
 for_window [class="PySpotlight"] floating enable, move position center, border normal
 for_window [class="SpotPress"] floating enable, move position center, border normal

@@ -21,7 +21,7 @@ WALL=$(find /home/alexandre/Imagens/wallpapers/ -name '*.jpg' | shuf -n 1)
 TMP_IMG="/tmp/wallpaper_with_ip.jpg"
 
 # Desenha o texto (IP) na imagem
-convert "$WALL" -gravity SouthEast -pointsize 26 -fill white -undercolor '#00000080' -annotate +20+20 "$TEXT" "$TMP_IMG"
+convert "$WALL" -gravity SouthEast -pointsize 26 -fill white -font Agave-Nerd-Font-Mono-Regular -undercolor '#00000080' -annotate +20+20 "$TEXT" "$TMP_IMG"
 
 # Copia para o local final
 cp "$TMP_IMG" /usr/share/backgrounds/ldm/wall.jpg
