@@ -6,8 +6,6 @@ i3
 i3lock-fancy
 xautolock
 python-i3ipc
-bspwm
-awesome
 feh
 kitty
 alacritty
@@ -21,14 +19,30 @@ wmctrl
 xdotool
 rofi
 fzf
+ripgrep
+picom
+git
+lazygit
+
+# tools
+exa or eza
+gdu
+btm
+
+
 # Debian
 psmisc
+python3-venv
 python3-qt6
 python3-pyudev
 python3-evdev
 python3-uinput
 python3-opencv
 python3-mumpy
+
+#optional
+brigthnessctl
 cifs-utils
 smbclient
-
+bspwm
+awesome
