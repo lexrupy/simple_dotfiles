@@ -163,9 +163,12 @@ bindsym $mod+t exec --no-startup-id sh -c '\
   google-chrome --new-window --profile-directory="Profile 3" & \
   google-chrome --new-window --profile-directory="Profile 3" & \
   google-chrome --new-window --profile-directory="Profile 2" & \
-  firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+  google-chrome --new-window --profile-directory="Profile 2" "https://web.whatsapp.com/" & \
   dbus-run-session thunar --class="PrimaryExplorer" & \
 '
+
+  # firefox -new-tab "https://web.whatsapp.com/" --class="ChatNavigator" & \
+
 # Display Applications Menu Selector
 bindsym $mod+x exec "rofi -show power-menu -modi power-menu:$HOME/.local/bin/rofi-power-menu"
 # cycle wallpaper
@@ -335,7 +338,7 @@ for_window [title="Google Chrome"] move container to workspace $ws3, workspace $
 for_window [class="PrimaryTerminal"] move container to workspace $ws1
 for_window [class="SecondaryTerminal"] move container to workspace $ws2
 for_window [class="ChatNavigator"] move container to workspace $ws5
-# for_window [class="PrimaryExplorer"] move container to workspace $ws5
+for_window [class="PrimaryExplorer"] move container to workspace $ws5
 for_window [class="ScratchPad"] floating enable
 for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable

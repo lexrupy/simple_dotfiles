@@ -122,5 +122,19 @@ function show_grub_menu {
     ' /boot/grub/grub.cfg
 }
 
+calc() {
+  if whence -p qalc >/dev/null 2>&1; then
+    command qalc "$@"
+  elif whence -p calc >/dev/null 2>&1; then
+    command calc "$@"
+  else
+    if [ $# -gt 0 ]; then
+      echo "$*" | bc -l
+    else
+      bc -l
+    fi
+  fi
+}
+
 
 

@@ -32,3 +32,6 @@ imagemagick
 brightnessctl
 flatpak
 
+
+# Remover bluez-alsa-utils para audio de alta qualidade
+
