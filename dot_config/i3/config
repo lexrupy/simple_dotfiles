@@ -269,8 +269,8 @@ workspace $ws2 output nonprimary
 workspace $ws3 output nonprimary 
 workspace $ws4 output nonprimary
 
-workspace $ws5 output primary
-workspace $ws6 output primary
+workspace $ws5 output primary nonprimary
+workspace $ws6 output primary nonprimary
 
 workspace $ws7 output primary nonprimary 
 workspace $ws8 output primary nonprimary 
