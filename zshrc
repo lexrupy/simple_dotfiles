@@ -25,7 +25,7 @@ alias ls="exa --icons"
 
 alias cat="batcat"
 
-alias la="ls -la"
+alias la="ls -lag"
 alias ll="ls -l"
 alias cd..="cd .."
 
