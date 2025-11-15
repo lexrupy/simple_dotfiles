@@ -26,23 +26,30 @@ SSID=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION dev | awk -F: '$2=="wifi" && $3=
 # Gera imagem com o texto fixo (sempre mesmo tamanho)
 convert -background '#00000080' -fill white -font Agave-Nerd-Font-Mono-Regular -pointsize 24 label:"$TEXT" /tmp/text_overlay.png
 
-
 if  [ -f $mirror_path ]; then
   # Imagem da esquerda: apenas copia (sem IP)
   cp "$mirror_path" "$tmp_mirror"
+
+    echo $mirror_path
 fi
 
 # Imagem da direita: aplica o IP no canto inferior direito
 convert "$img_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_img"
-convert "$img_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_mirror"
+convert "$mirror_path" /tmp/text_overlay.png -gravity SouthEast -geometry +20+20 -composite "$tmp_mirror"
 
 
 # Define o papel de parede com feh
 #
 if [ -f $mirror_path ]; then
-    feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+    QTD_MONITORS=$(xrandr | grep -sw connected | wc -l)
+    if [ $QTD_MONITORS -gt 2 ]; then
+        feh --bg-fill "$tmp_img" --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+    elif [ $QTD_MONITORS -gt 1 ]; then
+        feh --bg-fill "$tmp_img" --bg-fill "$tmp_mirror"
+    else
+        feh --bg-fill "$tmp_img"
+    fi
 else
-
     feh --bg-fill "$tmp_img"
 fi
 
