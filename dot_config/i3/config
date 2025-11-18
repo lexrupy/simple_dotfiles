@@ -49,6 +49,7 @@ exec --no-startup-id picom --experimental-backends
 #exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 
 exec_always --no-startup-id ~/.local/bin/setdesktopbg
+exec_always --no-startup-id ~/.local/bin/cyclebg
 
 # Use exec_always so the script can restart polybar to prevent glitch on system tray
 exec_always --no-startup-id ~/.local/bin/launch_polybar for_i3 
@@ -264,18 +265,18 @@ set $ws8 "8:dsk"
 set $ws9 "9:dsk1"
 set $ws10 "10:dsk2"
 
-workspace $ws1 output nonprimary
-workspace $ws2 output nonprimary 
-workspace $ws3 output nonprimary 
-workspace $ws4 output nonprimary
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1 
+workspace $ws3 output HDMI-1 
+workspace $ws4 output HDMI-1
 
-workspace $ws5 output primary nonprimary
-workspace $ws6 output primary nonprimary
+workspace $ws5 output DP-1
+workspace $ws6 output DP-1 
+workspace $ws7 output DP-1 
+workspace $ws8 output DP-1
 
-workspace $ws7 output primary nonprimary 
-workspace $ws8 output primary nonprimary 
-workspace $ws9 output primary nonprimary 
-workspace $ws10 output primary nonprimary
+workspace $ws9 output e-DP1  
+workspace $ws10 output e-DP1 
 
 
 # switch to workspace
