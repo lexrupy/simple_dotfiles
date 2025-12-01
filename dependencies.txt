@@ -46,3 +46,4 @@ cifs-utils
 smbclient
 bspwm
 awesome
+fonts-noto-color-emoji
