@@ -79,7 +79,8 @@ $HOME/.local/bin/launch_polybar for_bspwm -r &
 $HOME/.local/bin/cyclebg &
 $HOME/.local/bin/setdesktopbg &
 $HOME/.local/bin/bspwm-cleanfullscreen &
-flatpak run org.deskflow.deskflow &
+#flatpak run org.deskflow.deskflow &
+deskflow &
 #xset s 299
 #xss-lock --transfer-sleep-lock -- i3lock-fancy -n &
 #nm-applet &
