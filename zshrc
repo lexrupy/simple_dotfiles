@@ -26,6 +26,10 @@ alias ls="exa --icons"
 
 alias cat="batcat"
 
+alias au="sudo apt update"
+alias ap="sudo apt upgrade"
+alias fu="flatpak update"
+
 alias la="ls -la"
 alias ll="ls -l"
 alias cls="clear"
