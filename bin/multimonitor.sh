@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+PRIMARY="HDMI-1"
+
 QTD_MONITORS=$(xrandr | grep -sw connected | wc -l)
 if [ $QTD_MONITORS -gt 2 ]; then
 	FIRST=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "1p")
@@ -19,5 +21,7 @@ elif [ $QTD_MONITORS -gt 1 ]; then
 	# Tela notebook na esquerda
 	xrandr --output $FIRST --primary --mode 1366x768 --pos 0x0 --rotate normal --output $SECOND --mode 1920x1080 --pos 1366x0 --rotate normal
 fi
+
+
 
 

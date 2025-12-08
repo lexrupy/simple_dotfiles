@@ -47,3 +47,21 @@ smbclient
 bspwm
 awesome
 fonts-noto-color-emoji
+fonts-crosextra-carlito
+fonts-crosextra-caladea
+ttf-mscorefonts-installer
+
+# Rodar Script ./install-calibri.sh para instalar as fontes Calibri e Carlito
+# Instalar NerdFonts
+# bash -c  "$(curl -fsSL https://raw.githubusercontent.com/officialrajdeepsingh/nerd-fonts-installer/main/install.sh)"
+# Agave FiraCode, etc
+
+
+
+
+
+
+
+
+
+
