@@ -53,21 +53,23 @@ if __name__ == "__main__":
 
     total = 30
 
-    # Segundos restantes do ciclo TOTP (30s)
-    falta = total - (int(time.time()) % total)
+    timer = (int(time.time()) % total) 
 
-
-    restante = falta
-
-    # índice de 0 a 4
-    frames = ["○","○", "◔", "◑", "◕", "●"]
 
     # Seleção do ícone pela fonte custom
-    #frames = ["\ue000", "\ue001", "\ue002", "\ue003", "\ue004", "\ue005"]
-    idx = min(5, falta // 5)  
-    icon_raw = frames[idx]
+    frames = [
+        "\ue000", "\ue001", "\ue002", "\ue003", "\ue004", "\ue005",
+        "\ue006", "\ue007", "\ue008", "\ue009", "\ue00A", "\ue00B",
+        "\ue00C", "\ue00D", "\ue00E", "\ue00F", "\ue010", "\ue011",
+        "\ue012", "\ue013", "\ue014", "\ue015", "\ue016", "\ue017",
+        "\ue018", "\ue019", "\ue01A", "\ue01B", "\ue01C", "\ue01D",
+        "\ue01E"
+    ]
 
-    if falta <= 5:
+
+    icon_raw = frames[timer]
+
+    if timer >= 25:
         cor = "%{F#FF0000}"  # vermelho
     else:
         cor = "%{F#FFFFFF}"  # branco
@@ -75,4 +77,4 @@ if __name__ == "__main__":
     icon = f"{cor}%{{T3}}{icon_raw}%{{T-}}%{{F-}}"
 
     # Apenas 1 saída pro Polybar
-    print(f"{label_alvo} {icon} {code}")
+    print(f"{label_alvo}{icon}:{code}")
