@@ -1,55 +1,40 @@
 #! /bin/sh
 
 # Do not start sxhkd if already running
-pgrep -x sxhkd > /dev/null || sxhkd &
+if pgrep -x sxhkd >/dev/null; then
+    pkill -USR1 sxhkd
+else
+    sxhkd &
+fi
+
 
 # Multimonitor configuration
-# default oly "RIGHT" monitor if only one connected
-# RIGHT_MONITOR=$MONITOR_2  # "eDP1"
-#
-# QTD_MONITORS=$(xrandr | grep -sw 'connected' | wc -l)
-# if [ $QTD_MONITORS -gt "1" ]; then
-#     # Default left monitor to HDMI-1
-#     LEFT_MONITOR=$MONITOR_1
-#     # Try to load LEFT and RIGHT from custom local config if exists
-#     if [ -f $HOME/.config/bspwm/scripts/config ]; then
-#         eval $($HOME/.config/bspwm/scripts/config)
-#     fi
-#     # Arrange desktops between monitors
-#     bspc monitor $LEFT_MONITOR -d 1:code 2:term 3:www 4:db
-#     bspc monitor $RIGHT_MONITOR -d 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 10:dsk2
-# else
-#     # Only one monitor detected, so all desktops go in the same
-#     bspc monitor $RIGHT_MONITOR -d 1:code 2:term 3:www 4:db 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 10:dsk2
-# fi
-#
-#
-
-
 # Identificação dos monitores
-INTERNAL=$(xrandr | awk '/connected primary/ {print $1}')
+INTERNAL=$(xrandr | awk '/eDP/ && /connected/ {print $1}')
+[ -z "$INTERNAL" ] && INTERNAL=$(xrandr | awk '/connected primary/ {print $1}')
+
 HDMI=$(xrandr | awk '/^HDMI/ && /connected/ {print $1}')
 DP=$(xrandr | awk '/^DP/ && /connected/ {print $1}')
 
 
-# Se quiser, force posicionamento: HDMI esquerda, eDP centro, DP direita
-if [ -n "$HDMI" ] && [ -n "$DP" ]; then
-    bspc monitor "$HDMI" -d 1:code 2:term 3:www 4:db 
-    bspc monitor "$DP" -d 5:chat1 6:chat2 7:docs 
-    bspc monitor "$INTERNAL" -d 8:dsk 9:dsk1 10:dsk2
-else
-    # fallback: 2 monitores ou só 1
-    ALL_DESKS="1:code 2:term 3:www 4:db 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 10:dsk2"
-
-    if [ -n "$HDMI" ]; then
-        bspc monitor "$HDMI" -d $ALL_DESKS
+if ! bspc query -D --names | grep -q "1:code"; then
+    if [ -n "$HDMI" ] && [ -n "$DP" ]; then
+        bspc monitor "$HDMI" -d 1:code 2:term 3:www 4:db 
+        bspc monitor "$DP" -d 5:chat1 6:chat2 7:docs 
+        bspc monitor "$INTERNAL" -d 8:dsk 9:dsk1 10:dsk2
     else
-        bspc monitor "$INTERNAL" -d $ALL_DESKS
+        # fallback: 2 monitores ou só 1
+        ALL_DESKS="1:code 2:term 3:www 4:db 5:chat1 6:chat2 7:docs 8:dsk 9:dsk1 10:dsk2"
+
+        if [ -n "$HDMI" ]; then
+            bspc monitor "$HDMI" -d $ALL_DESKS
+        else
+            bspc monitor "$INTERNAL" -d $ALL_DESKS
+        fi
     fi
 fi
-
 # Polybar sempre no monitor central (integrado)
-export POLYBAR_MONITOR="$INTERNAL"
+# export POLYBAR_MONITOR="$INTERNAL"
 
 bspc config border_width           2
 bspc config window_gap             6
@@ -63,25 +48,25 @@ bspc config normal_border_color   "#444"
 bspc config focused_border_color  "#ffffff"
 
 # external rules to cases not covered directly from bspc rule command
-bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
+# bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
 
 # Prevents emacs start floating
 bspc rule -a Emacs state=tiled
 
 # Yad calendar opens floating
 bspc rule -a Yad state=floating follow=on
-bspc rule -a Gimp desktop='^8' follow=on
-bspc rule -a DBeaver desktop="^4" #follow=on
-bspc rule -a Slack desktop="^6" follow=on
-bspc rule -a Deskreen desktop="^10" follow=on
-bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
-bspc rule -a VirtualBoxVM desktop="^9" follow=on
-bspc rule -a Thunar desktop="^7" follow=on
+# bspc rule -a Gimp desktop='^8' follow=on
+# bspc rule -a DBeaver desktop="^4" #follow=on
+# bspc rule -a Slack desktop="^6" follow=on
+# bspc rule -a Deskreen desktop="^10" follow=on
+# bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
+# bspc rule -a VirtualBoxVM desktop="^9" follow=on
+# bspc rule -a Thunar desktop="^7" follow=on
 bspc rule -a Blueman-manager state=floating rectangle=500x300 center=true
 bspc rule -a SpotPress state=floating center=true
-bspc rule -a Chromium desktop='^3' follow=on
-bspc rule -a Google-chrome desktop='^3' follow=on
-bspc rule -a firefox desktop='^3' follow=on
+# bspc rule -a Chromium desktop='^3' follow=on
+# bspc rule -a Google-chrome desktop='^3' follow=on
+# bspc rule -a firefox desktop='^3' follow=on
 bspc rule -a SshAskpass center true
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on bspc rule -a Screenkey manage=off
@@ -92,14 +77,14 @@ bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=tr
 
 # Autorun applications
 #
-setxkbmap -layout br
+# setxkbmap -layout br
 xscreensaver -no-splash &
 
-/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+# /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 picom --experimental-backends &
-
-polybar for_bspwm -r &
+sleep 0.5
+$HOME/.local/bin/launch_polybar for_bspwm -r &
 
 #feh --bg-fill -z ~/Imagens/wallpapers/*.jpg &
 $HOME/.local/bin/bspwm-cleanfullscreen &
@@ -111,4 +96,8 @@ $HOME/.local/bin/cyclebg.sh &
 #xfce-power-manager &
 dex --autostart --environment bspwm &
 # bspc desktop -f ^1 --follow
+#
+if [ -n "$HDMI" ]; then
+    bspc monitor "$HDMI" -f
+fi
 

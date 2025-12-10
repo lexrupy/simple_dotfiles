@@ -31,25 +31,7 @@ def copiar_clipboard(texto):
     subprocess.run(["xclip", "-selection", "clipboard"], input=texto.encode())
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        sys.exit(1)
-
-    label_alvo = sys.argv[1]
-    modo_copy = "--copy" in sys.argv
-
-    secret_key = carregar_segredo_totp(label_alvo)
-
-    if not secret_key:
-        sys.exit(1)
-
-    totp = pyotp.TOTP(secret_key)
-    code = totp.now()
-
-    if modo_copy:
-        copiar_clipboard(code)
-        sys.exit(0)
-
+def get_icon():
     total = 30
 
     # Segundos restantes do ciclo TOTP (30s)
@@ -87,11 +69,8 @@ if __name__ == "__main__":
         "\ue01d",
         "\ue01e",
     ]
-    num_frames = len(frames)
-    duracao_frame = total / num_frames  # <- float division
 
     tempo_decorrido = total - falta
-    # idx = min(num_frames - 1, int(tempo_decorrido / duracao_frame))
 
     icon_raw = frames[tempo_decorrido]
 
@@ -100,7 +79,35 @@ if __name__ == "__main__":
     else:
         cor = "%{F#FFFFFF}"  # branco
 
-    icon = f"{cor}%{{T3}}{icon_raw}%{{T-}}%{{F-}}"
+    return f"{cor}%{{T3}}{icon_raw}%{{T-}}%{{F-}}"
 
-    # Apenas 1 saída pro Polybar
-    print(f"{label_alvo} {icon} {code}")
+
+if __name__ == "__main__":
+
+    if "--onlyicon" in sys.argv:
+        print(get_icon())
+        sys.exit(0)
+
+    if len(sys.argv) < 2:
+        sys.exit(1)
+
+    label_alvo = sys.argv[1]
+    modo_copy = "--copy" in sys.argv
+    modo_noicon = "--noicon" in sys.argv
+
+    secret_key = carregar_segredo_totp(label_alvo)
+
+    if not secret_key:
+        sys.exit(1)
+
+    totp = pyotp.TOTP(secret_key)
+    code = totp.now()
+
+    if modo_copy:
+        copiar_clipboard(code)
+        sys.exit(0)
+
+    if modo_noicon:
+        print(f"{label_alvo}: {code}")
+    else:
+        print(f"{label_alvo} {get_icon()} {code}")

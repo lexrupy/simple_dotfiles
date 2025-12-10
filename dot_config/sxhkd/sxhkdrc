@@ -24,10 +24,6 @@ super + x
 super + b 
   google-chrome
 
-# Chat -> WhatsApp Web
-super + c
-	whatsappweb
-
 # Web Browser Anonymous
 
 super + shift + b
@@ -159,8 +155,17 @@ super + {o,i}
 	bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+# super + {_,shift + }{1-9,0}
+# 	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+#
+
+# Focus desktops
+super + {1-9,0}
+    ~/.config/bspwm/scripts/switch-desktop.sh {1-9,0} focus
+
+# Send node to desktop
+super + shift + {1-9,0}
+    ~/.config/bspwm/scripts/switch-desktop.sh {1-9,0} send
 
 #
 # preselect
