@@ -30,13 +30,41 @@ def carregar_segredo_totp(label_desejado, caminho_arquivo="~/.secrets/secrets.tx
 def copiar_clipboard(texto):
     subprocess.run(["xclip", "-selection", "clipboard"], input=texto.encode())
 
+def get_icon():
+    total = 30
+    timer = (int(time.time()) % total) 
+
+    # Seleção do ícone pela fonte custom
+    frames = [
+        "\ue000", "\ue001", "\ue002", "\ue003", "\ue004", "\ue005",
+        "\ue006", "\ue007", "\ue008", "\ue009", "\ue00A", "\ue00B",
+        "\ue00C", "\ue00D", "\ue00E", "\ue00F", "\ue010", "\ue011",
+        "\ue012", "\ue013", "\ue014", "\ue015", "\ue016", "\ue017",
+        "\ue018", "\ue019", "\ue01A", "\ue01B", "\ue01C", "\ue01D",
+        "\ue01E"
+    ]
+
+    icon_raw = frames[timer]
+
+    if timer >= 25:
+        cor = "%{F#FF0000}"  # vermelho
+    else:
+        cor = "%{F#FFFFFF}"  # branco
+
+    return f"{cor}%{{T3}}{icon_raw}%{{T-}}%{{F-}}"
 
 if __name__ == "__main__":
+
+    if "--only-icon" in sys.argv:
+        print(get_icon())
+        sys.exit(0)
+
     if len(sys.argv) < 2:
         sys.exit(1)
 
     label_alvo = sys.argv[1]
     modo_copy = ("--copy" in sys.argv)
+    no_icon = ("--no-icon" in sys.argv)
 
     secret_key = carregar_segredo_totp(label_alvo)
 
@@ -51,30 +79,8 @@ if __name__ == "__main__":
         sys.exit(0)
 
 
-    total = 30
-
-    timer = (int(time.time()) % total) 
-
-
-    # Seleção do ícone pela fonte custom
-    frames = [
-        "\ue000", "\ue001", "\ue002", "\ue003", "\ue004", "\ue005",
-        "\ue006", "\ue007", "\ue008", "\ue009", "\ue00A", "\ue00B",
-        "\ue00C", "\ue00D", "\ue00E", "\ue00F", "\ue010", "\ue011",
-        "\ue012", "\ue013", "\ue014", "\ue015", "\ue016", "\ue017",
-        "\ue018", "\ue019", "\ue01A", "\ue01B", "\ue01C", "\ue01D",
-        "\ue01E"
-    ]
-
-
-    icon_raw = frames[timer]
-
-    if timer >= 25:
-        cor = "%{F#FF0000}"  # vermelho
+    if no_icon:
+        print(f"{label_alvo}:{code}")
     else:
-        cor = "%{F#FFFFFF}"  # branco
-
-    icon = f"{cor}%{{T3}}{icon_raw}%{{T-}}%{{F-}}"
-
     # Apenas 1 saída pro Polybar
-    print(f"{label_alvo}{icon}:{code}")
+        print(f"{label_alvo}{get_icon()}:{code}")
