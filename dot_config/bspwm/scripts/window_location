@@ -2,43 +2,65 @@
   
 wid="$1"
 class="$2"
-#instance="$3"
-#eval "$4"
+
 
 title="$(xprop -id $wid '\t$0' WM_NAME | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
 role="$(xprop -id $wid '\t$0' WM_WINDOW_ROLE | cut -f 2 | sed 's/^"\(.*\)"$/\1/')"
 
+MD="$HOME/.config/bspwm/scripts/map-desktop.sh"
 
-if echo $class | grep -q "Java"; then
-    echo 'float=on desktop=^3'
-fi
+
+case "$class" in
+    Google-chrome)
+        # Send WhatsApp Web to desktop 5
+        if echo $title | grep -q "WhatsApp Web" ; then
+            echo "desktop=^$($MD 5)"
+        else
+            echo "desktop=^$($MD 3)"
+        fi
+        exit
+        ;;
+    Java)
+        echo "float=on"
+        exit
+        ;;
+    "VirtualBox Manager")
+        echo "desktop=^$($MD 8) follow=on"
+        exit
+        ;;
+    "VirtualBox Machine")
+        echo "desktop=^$($MD 9)"
+        exit
+        ;;
+esac
+
 
 # Send WhatsApp Web to desktop 5
-if echo $title | grep -q "WhatsApp Web" ; then
-    echo 'desktop=^5'
-fi
+# if echo $title | grep -q "WhatsApp Web" ; then
+#     echo "desktop=^$($MD 5)"
+# fi
 
 # Send YouTube Web to desktop 3
 # if echo $title | grep -q "YouTube" ; then
 #     echo 'desktop=^3'
 # fi
 # Send Chrome profile selection window to desktop 3, and pop-ups to desktop 8
-if echo $title | grep -q "Google Chrome" ; then
-    if echo $role | grep -q "pop-up"; then
-        echo 'desktop=^8'
-    else
-        echo 'desktop=^3'
-    fi
-fi
+# if echo $title | grep -q "Google Chrome" ; then
+#     if echo $role | grep -q "pop-up"; then
+#         echo "desktop=^$($MD 8)"
+#     else
+#         echo "desktop=^$($MD 3)"
+#     fi
+# fi
 # Send VirtualBox Manager to Desktop 8
-if echo $class| grep -q "VirtualBox Manager" ; then
-    echo 'desktop=^8'
-fi
-
-# Send VirtualBox Machine to Desktop 9
-if echo $class| grep -q "VirtualBox Machine" ; then
-    echo 'desktop=^9'
-fi
+# if echo $class| grep -q "VirtualBox Manager" ; then
+#     echo "desktop=^$($MD 8)"
+# fi
+#
+# # Send VirtualBox Machine to Desktop 9
+# if echo $class| grep -q "VirtualBox Machine" ; then
+#     echo "desktop=^$($MD 9)"
+# fi
 
 
 # Yad Calendar
@@ -47,5 +69,7 @@ fi
 #     Y=$(expr $Y + 210)
 #     echo "state=floating, monitor=$MONITOR_1 rectangle=211x196+$X+$Y "
 # fi
-
-# notify-send $class
+#
+# if [ "$class" != "Xfce4-notifyd" ]; then
+#     notify-send "$class | $title | $role"
+# fi

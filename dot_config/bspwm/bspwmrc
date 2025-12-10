@@ -41,6 +41,7 @@ bspc config window_gap             6
 bspc config split_ratio           0.5
 bspc config borderless_monocle    true
 bspc config gapless_monocle       true
+bspc config honor_fullscreen      true
 bspc config focus_follows_pointer false
 bspc config pointer_follows_focus false
 bspc config pointer_follows_monitor false
@@ -48,25 +49,29 @@ bspc config normal_border_color   "#444"
 bspc config focused_border_color  "#ffffff"
 
 # external rules to cases not covered directly from bspc rule command
-# bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
+bspc config external_rules_command $HOME/.config/bspwm/scripts/window_location
 
 # Prevents emacs start floating
 bspc rule -a Emacs state=tiled
 
+
+MD="$HOME/.config/bspwm/scripts/map_desktop.sh"
+
+
 # Yad calendar opens floating
 bspc rule -a Yad state=floating follow=on
-# bspc rule -a Gimp desktop='^8' follow=on
-# bspc rule -a DBeaver desktop="^4" #follow=on
-# bspc rule -a Slack desktop="^6" follow=on
-# bspc rule -a Deskreen desktop="^10" follow=on
-# bspc rule -a "VirtualBox Manager" desktop="^8" follow=on
-# bspc rule -a VirtualBoxVM desktop="^9" follow=on
-# bspc rule -a Thunar desktop="^7" follow=on
+bspc rule -a Gimp desktop="^$($MD 8)" follow=on
+bspc rule -a DBeaver desktop="^$($MD 4)" #follow=on
+bspc rule -a Slack desktop="^$($MD 6)" follow=on
+bspc rule -a Deskreen desktop="^$($MD 0)" follow=on
+bspc rule -a "VirtualBox Manager" desktop="^$($MD 8)" follow=on
+bspc rule -a VirtualBoxVM desktop="^$($MD 9)" follow=on
+bspc rule -a Thunar desktop="^$($MD 7)" follow=on
 bspc rule -a Blueman-manager state=floating rectangle=500x300 center=true
 bspc rule -a SpotPress state=floating center=true
-# bspc rule -a Chromium desktop='^3' follow=on
-# bspc rule -a Google-chrome desktop='^3' follow=on
-# bspc rule -a firefox desktop='^3' follow=on
+bspc rule -a Chromium desktop="^$($MD 3)" follow=on
+bspc rule -a Google-chrome desktop="^$($MD 3)" follow=on
+bspc rule -a firefox desktop="^$($MD 3)" follow=on
 bspc rule -a SshAskpass center true
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on bspc rule -a Screenkey manage=off
