@@ -1,14 +1,46 @@
 #!/bin/env bash
-# MONITOR="$(xrandr --query|grep primary|cut -d ' ' -f1)"
-SERVICE="polybar"
-if pgrep -x "$SERVICE" >/dev/null
-then
-  polybar-msg cmd restart
-  #pkill polybar
-else
-  # POLYBAR_MONITOR=$MONITOR polybar -r $1 &
-  for m in $(polybar --list-monitors | cut -d":" -f1); do
-      POLYBAR_MONITOR=$m polybar --reload $1 &
-  done
-fi
 
+# MONITOR="$(xrandr --query|grep primary|cut -d ' ' -f1)"
+# SERVICE="polybar"
+# if pgrep -x "$SERVICE" >/dev/null
+# then
+#   polybar-msg cmd restart
+#   #pkill polybar
+# else
+#   # POLYBAR_MONITOR=$MONITOR polybar -r $1 &
+#   for m in $(polybar --list-monitors | cut -d":" -f1); do
+#       POLYBAR_MONITOR=$m polybar --reload $1 &
+#   done
+# fi
+
+SERVICE="polybar"
+BAR_NAME="$1"
+
+positions2=("left" "right")
+positions3=("top" "left" "right")
+
+if pgrep -x "$SERVICE" >/dev/null; then
+    polybar-msg cmd restart
+else
+    monitors=( $(polybar --list-monitors | cut -d":" -f1) )
+    num_monitors=${#monitors[@]}
+    if (( num_monitors == 3 )); then
+      positions=("${positions3[@]}")
+    elif (( num_monitors == 2 )); then
+      positions=("${positions2[@]}")
+    else
+      positions=()
+    fi
+
+    idx=0
+    for m in "${monitors[@]}"; do
+        if (( num_monitors == 1 )); then
+            BAR_TO_LAUNCH="${BAR_NAME}"
+        else
+            pos="${positions[$idx]}"
+            BAR_TO_LAUNCH="${BAR_NAME}_${pos}"
+        fi
+        POLYBAR_MONITOR="$m" polybar --reload "$BAR_TO_LAUNCH" &
+        ((idx++))
+    done
+fi
