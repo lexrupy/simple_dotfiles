@@ -79,6 +79,9 @@ bspc rule -a SshAskpass center true
 bspc rule -a ScratchPad sticky=on state=floating rectangle=1200x600+0+0 center=true
 bspc rule -a PythonPad sticky=on state=floating rectangle=1200x600+0+0 center=true
 
+# xsetroot -cursor_name left_ptr
+# export XCURSOR_SIZE=24
+# export XCURSOR_THEME=Adwaita
 
 # Autorun applications
 #

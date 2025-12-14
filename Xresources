@@ -10,3 +10,4 @@ UXTerm.vt100.faceName: Agave Nerd Font Mono:size=16:antialias=true
 
 Xcursor.theme: Adwaita
 Xcursor.size: 24
+! Xft.dpi: 190

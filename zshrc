@@ -71,6 +71,9 @@ function activate {
 # export MANPAGER='/usr/bin/nvim +Man!'
 # export MANWIDTH=999
 
+export SUDO_ASKPASS=/usr/bin/ssh-askpass
+# export SUDO_ASKPASS=~/.local/bin/sudo_askpass.sh
+
 autoload -U compinit
 compinit
 
