@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 import email
 import imaplib
-import os
 import re
 import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
 
@@ -13,7 +11,11 @@ IMAP_SERVER = "imap.gmail.com"
 IMAP_USER   = "lexrupy@gmail.com"
 IMAP_PASS   = Path("~/.secrets/pmsc2faclient.txt").expanduser().read_text().strip()
 
-SAVE_FILE = os.path.expanduser("~/.cache/2fa_code.txt")
+SAVE_FILE = Path("~/.cache/2fa_code.txt").expanduser()
+TTL_FILE = Path("~/.cache/2fa_ttl.txt").expanduser()
+IN_SEARCH_FILE = Path("~/.cache/2fa_in_search.txt").expanduser()
+
+CACHE_TTL = 50 
 
 ANIMATION_FRAMES = [
         "[○●○○]",
@@ -25,12 +27,12 @@ ANIMATION_FRAMES = [
     ]
 
 
-def animation_worker(stop_event):
-    i = 0
-    while not stop_event.is_set():
-        write_code(ANIMATION_FRAMES[i % len(ANIMATION_FRAMES)])
-        i += 1
-        time.sleep(1)  # velocidade da animação
+def get_current_animation_frame():
+    # Usa o timestamp atual para ciclar entre os frames
+    # Assim, a cada segundo o Polybar recebe o próximo frame
+    index = int(time.time()) % len(ANIMATION_FRAMES)
+    return ANIMATION_FRAMES[index]
+
 
 def extrair_codigo(html):
     m = re.search(r"<h1><b>([0-9a-zA-Z]{6})</b></h1>", html)
@@ -38,15 +40,35 @@ def extrair_codigo(html):
         return m.group(1)
     return None
 
+def touch_ttl():
+    TTL_FILE.parent.mkdir(parents=True, exist_ok=True)
+    TTL_FILE.touch()
+
 def write_code(code):
-    os.makedirs(os.path.dirname(SAVE_FILE), exist_ok=True)
-    with open(SAVE_FILE, "w") as f:
-        f.write(code.strip() + "\n")
+    SAVE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    SAVE_FILE.write_text(code.strip() + "\n")
+
+
+def cache_valido():
+    if not TTL_FILE.exists():
+        return 0
+
+    age = time.time() - TTL_FILE.stat().st_mtime
+    restante = CACHE_TTL - age
+
+    if restante <= 0:
+        SAVE_FILE.unlink()
+        TTL_FILE.unlink()
+        return 0
+       
+    return restante
+
 
 def read_cached_code():
-    if not os.path.exists(SAVE_FILE):
+    if not SAVE_FILE.exists():
         return None
-    return Path(SAVE_FILE).read_text().strip()
+
+    return SAVE_FILE.read_text().strip()
 
 def copy_to_clipboard(text):
     subprocess.run(["xclip", "-selection", "clipboard"], input=text.encode())
@@ -180,46 +202,60 @@ def obter_com_retentativas(n):
     return None
 
 
-def main():
-    # --- CLI: clique no polybar ---
-    if "--check" in sys.argv:
-        save_path = Path(SAVE_FILE)
-
-        try:
-            current = save_path.read_text().strip()
-        except FileNotFoundError:
-            current = ""
-
-        # Se contiver um frame → animação ainda rodando
-        if current in ANIMATION_FRAMES:
-            return
-
-        stop_event = threading.Event()
-        # inicia animação em thread separada
-        t = threading.Thread(target=animation_worker, args=(stop_event,))
-        t.start()
-
-
-        codigo = obter_com_retentativas(3)
-
-        # parar animação
-        stop_event.set()
-        t.join()
-
-        if codigo:
-            write_code(codigo)
-            copy_to_clipboard(codigo)
-        else:
-            write_code("######")
-        return
-
-
-    # --- Exec normal (polling) ---
+def print_status(tempo_restante=0):
     codigo = read_cached_code()
     if codigo:
-        print("PMSC:", codigo)
+        # Apenas o código fica vermelho se faltar menos de 10s
+        if tempo_restante < 10:
+            display_codigo = f"%{{F#ff0000}}{codigo}%{{F-}}"
+        else:
+            display_codigo = codigo
+        print(f"PMSC: {display_codigo}")
     else:
-        print("PMSC: ------")
+        print("PMSC: ######")
+
+
+def main():
+    tempo_restante = cache_valido()
+    # --- CHAMADA REGULAR DO POLYBAR (interval = 1) ---
+    if "--check" not in sys.argv:
+        if tempo_restante > 0:
+            print_status(tempo_restante)
+        elif IN_SEARCH_FILE.exists():
+            # Se o arquivo de trava existe, apenas printa o frame da vez
+            print(f"PMSC: {get_current_animation_frame()}")
+        else:
+            print("PMSC: ######")
+        return
+
+    # --- CHAMADA DO CLIQUE (click-left) ---
+    if "--check" in sys.argv:
+        if IN_SEARCH_FILE.exists():
+            return
+
+        if tempo_restante > 0:
+            codigo = read_cached_code()
+            if codigo:
+                copy_to_clipboard(codigo)
+            return
+
+        # Cria a trava e inicia a busca
+        try:
+            IN_SEARCH_FILE.touch()
+            
+            # Como o Polybar já está rodando a animação via 'get_current_animation_frame',
+            # aqui no --check nós apenas fazemos a busca bloqueante.
+            codigo = obter_com_retentativas(3)
+
+            if codigo:
+                write_code(codigo)
+                touch_ttl()
+                copy_to_clipboard(codigo)
+        finally:
+            # Remove a trava para parar a animação no Polybar
+            if IN_SEARCH_FILE.exists():
+                IN_SEARCH_FILE.unlink()
+
 
 
 if __name__ == "__main__":
