@@ -29,25 +29,25 @@ alias la="ls -lag"
 alias ll="ls -l"
 alias cd..="cd .."
 
-# alias nvimb="/usr/bin/nvim"
-# #
-# alias lazy="NVIM_APPNAME=LazyVim nvimb"
-# alias chad="NVIM_APPNAME=NvChad nvimb"
+alias nvimb="/usr/local/bin/nvim"
+#
+alias lazy="NVIM_APPNAME=LazyVim nvimb"
+alias chad="NVIM_APPNAME=NvChad nvimb"
 # alias astro="NVIM_APPNAME=AstroNvim nvimb"
-# alias kick="NVIM_APPNAME=KickStart nvimb"
-# # alias vim=""
-# #
-# function nvims() {
-#   items=("AstroNvim" "AstroNvim4" "NvChad" "LazyVim" "KickStart" "default")
-#   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
-#   if [[ -z $config ]]; then
-#     echo "Nothing selected"
-#     return 0
-#   elif [[ $config == "default" ]]; then
-#     config=""
-#   fi
-#   NVIM_APPNAME=$config nvimb $@
-# }
+alias astro="nvimb"
+alias vim="nvim"
+#
+function nvims() {
+  items=("AstroNvim" "NvChad" "LazyVim" "default")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvimb $@
+}
 
 
 function activate { 
@@ -83,20 +83,15 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # pasting with tabs doesn't perform completion
 zstyle ':completion:*' insert-tab pending
 
+# Pyenv Stuff
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
 eval "$(pyenv virtualenv-init -)"
 
-eval "$(direnv hook zsh)"
 
-export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-eval "$(pyenv init -)"
 
-eval "$(pyenv virtualenv-init -)"
-
-
+eval "$(direnv hook zsh)"

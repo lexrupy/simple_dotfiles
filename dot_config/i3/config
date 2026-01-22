@@ -43,9 +43,14 @@ title_align center
 #exec --no-startup-id flameshot
 #exec --no-startup-id nitrogen --restore
 exec --no-startup-id xscreensaver -no-splash
+# exec --no-startup-id xfce4-screensaver
+
+
+
 # exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id $HOME/.local/bin/i3-alternating-layout
-exec --no-startup-id picom --experimental-backends
+exec --no-startup-id "~/.local/bin/i3-alternating-layout &"
+# exec --no-startup-id picom --experimental-backends
+exec --no-startup-id picom -b
 #exec --no-startup-id feh --bg-fill -z ~/Imagens/wallpapers/*.jpg
 
 exec_always --no-startup-id ~/.local/bin/setdesktopbg
@@ -64,7 +69,7 @@ for_window [class="ScratchPad"] resize set 1348 729
 for_window [class="ScratchPad"] move scratchpad
 
 # exec --no-startup-id alacritty --class ScratchPad 
-exec --no-startup-id ~/.local/bin/i3-scratchpad
+exec --no-startup-id "~/.local/bin/i3-scratchpad &"
 
 
 # PythonPad a scratchpad with python up and running
@@ -74,7 +79,7 @@ for_window [class="PythonPad"] resize set 1348 729
 for_window [class="PythonPad"] move scratchpad
 
 # exec --no-startup-id alacritty --class PythonPad -e ~/.local/opt/PythonPad/bin/ipython
-exec --no-startup-id ~/.local/bin/i3-pythonpad
+exec --no-startup-id "~/.local/bin/i3-pythonpad &"
 
 
 bindsym $mod+shift+minus exec --no-startup-id ~/.local/bin/i3-scratchpad
@@ -104,7 +109,7 @@ exec --no-startup-id dex --autostart --environment i3
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy --nofork
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy -p -f Agave-Nerd-Font-Mono-Regular
 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
