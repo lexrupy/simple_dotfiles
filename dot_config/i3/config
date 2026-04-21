@@ -19,11 +19,13 @@ font pango:Agave Nerd Font Mono 12
 
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #285577 #ffffff #2e9ef4   #ffffff
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #6f7a7d
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+
 
 client.background       #ffffff
 
@@ -270,15 +272,15 @@ set $ws8 "8:dsk"
 set $ws9 "9:dsk1"
 set $ws10 "10:dsk2"
 
-workspace $ws1 output HDMI-1
-workspace $ws2 output HDMI-1 
-workspace $ws3 output HDMI-1 
-workspace $ws4 output HDMI-1
+workspace $ws1 output DP-1
+workspace $ws2 output DP-1 
+workspace $ws3 output DP-1 
+workspace $ws4 output DP-1
 
-workspace $ws5 output DP-1
-workspace $ws6 output DP-1 
-workspace $ws7 output DP-1 
-workspace $ws8 output DP-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output HDMI-1 
+workspace $ws7 output HDMI-1 
+workspace $ws8 output HDMI-1
 
 workspace $ws9 output e-DP1  
 workspace $ws10 output e-DP1 
@@ -313,6 +315,8 @@ bindsym $mod+Mod1+ctrl+h move workspace to output left
 # Change current workspace to right monitor
 bindsym $mod+Mod1+ctrl+l move workspace to output right
 
+bindsym Mod1+Escape [floating] exec --no-startup-id i3-msg kill
+
 # Individual program output configuration
 
 assign [class="Code"] $ws1
@@ -330,11 +334,13 @@ for_window [class="Docker Desktop"] move container to workspace $ws9;
 # for_window [title="^(?!.*WhatsApp Web).*$" class="Google-chrome" window_role="pop-up" ] floating enable, resize set 1200 700, move position center
 # Get pop-up to the same workspace of parent window
 for_window [class="Google-chrome" window_role="pop-up"] [title_format="%c"] move container to workspace [con_id=__focused__]
+for_window [class="(?i)(google-chrome|chromium|firefox)" window_role="pop-up"] \
+  floating enable, resize set 90 ppt 78 ppt, move position center border pixel 5
 # All the other browser windows go to workspace 3
-for_window [title="Google Chrome" tiling] move container to workspace $ws3; workspace $ws3
+# for_window [title="Google Chrome" tiling] move container to workspace $ws3; workspace $ws3;
 # Complementary Window Configuration
-for_window [class="PrimaryTerminal"] move container to workspace $ws1
-for_window [class="SecondaryTerminal"] move container to workspace $ws2
+# for_window [class="PrimaryTerminal"] move container to workspace $ws1
+# for_window [class="SecondaryTerminal"] move container to workspace $ws2
 # for_window [class="ScratchPad"] floating enable
 # for_window [class="ScratchPad"] move scratchpad
 for_window [class="Pythontkfloating"] floating enable

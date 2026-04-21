@@ -21,6 +21,10 @@ REPORTTIME=10 # print elapsed time when more than 10 seconds
 
 alias clock="tty-clock -C 4"
 
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
 alias ls="exa --icons"
 
 alias cat="batcat"
@@ -33,9 +37,9 @@ alias nvimb="/usr/local/bin/nvim"
 #
 alias lazy="NVIM_APPNAME=LazyVim nvimb"
 alias chad="NVIM_APPNAME=NvChad nvimb"
-# alias astro="NVIM_APPNAME=AstroNvim nvimb"
-alias astro="nvimb"
+alias astro="NVIM_APPNAME=AstroNvim nvimb"
 alias vim="nvim"
+alias nvim="astro"
 #
 function nvims() {
   items=("AstroNvim" "NvChad" "LazyVim" "default")
@@ -68,6 +72,21 @@ function activate {
     fi
 }
 
+
+calc() {
+  if whence -p qalc >/dev/null 2>&1; then
+    command qalc "$@"
+  elif whence -p calc >/dev/null 2>&1; then
+    command calc "$@"
+  else
+    if [ $# -gt 0 ]; then
+      echo "$*" | bc -l
+    else
+      bc -l
+    fi
+  fi
+}
+
 # export MANPAGER='/usr/bin/nvim +Man!'
 # export MANWIDTH=999
 
@@ -95,3 +114,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 
 eval "$(direnv hook zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

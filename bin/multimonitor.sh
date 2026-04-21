@@ -7,10 +7,19 @@ if [ $QTD_MONITORS -gt 2 ]; then
 	FIRST=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "1p")
 	SECOND=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "2p")
 	THIRD=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "3p")
-  xrandr \
-  	--output $FIRST --primary --mode 1366x768 --pos 2474x0 --rotate normal \
-  	--output $SECOND --mode 1920x1080 --pos 0x768 --rotate normal \
-  	--output $THIRD --mode 1920x1080 --pos 1920x768 --rotate normal
+
+  # layout Horizontal
+  #
+   xrandr \
+	--output eDP-1 --primary --mode 1366x768 --pos 3840x0 --rotate normal  \
+	--output HDMI-1 --mode 1920x1080 --pos 1920x73 --rotate normal \
+	--output DP-1 --mode 1920x1080 --pos 0x73 --rotate normal 
+
+  # layout Suporte
+  # xrandr \
+  # 	--output $FIRST --primary --mode 1366x768 --pos 2474x0 --rotate normal \
+  # 	--output $SECOND --mode 1920x1080 --pos 0x768 --rotate normal \
+  # 	--output $THIRD --mode 1920x1080 --pos 1920x768 --rotate normal
 elif [ $QTD_MONITORS -gt 1 ]; then
 	FIRST=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "1p")
 	SECOND=$(xrandr | grep -sw connected | awk '{print $1}' | sed -n "2p")
