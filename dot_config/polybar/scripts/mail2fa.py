@@ -8,23 +8,23 @@ import time
 from pathlib import Path
 
 IMAP_SERVER = "imap.gmail.com"
-IMAP_USER   = "lexrupy@gmail.com"
-IMAP_PASS   = Path("~/.secrets/pmsc2faclient.txt").expanduser().read_text().strip()
+IMAP_USER = "lexrupy@gmail.com"
+IMAP_PASS = Path("~/.secrets/pmsc2faclient.txt").expanduser().read_text().strip()
 
 SAVE_FILE = Path("~/.cache/2fa_code.txt").expanduser()
 TTL_FILE = Path("~/.cache/2fa_ttl.txt").expanduser()
 IN_SEARCH_FILE = Path("~/.cache/2fa_in_search.txt").expanduser()
 
-CACHE_TTL = 50 
+CACHE_TTL = 50
 
 ANIMATION_FRAMES = [
-        "[○●○○]",
-        "[○○●○]",
-        "[○○○●]",
-        "[○○●○]",
-        "[○●○○]",
-        "[●○○○]",
-    ]
+    "[○●○○]",
+    "[○○●○]",
+    "[○○○●]",
+    "[○○●○]",
+    "[○●○○]",
+    "[●○○○]",
+]
 
 
 def get_current_animation_frame():
@@ -40,9 +40,11 @@ def extrair_codigo(html):
         return m.group(1)
     return None
 
+
 def touch_ttl():
     TTL_FILE.parent.mkdir(parents=True, exist_ok=True)
     TTL_FILE.touch()
+
 
 def write_code(code):
     SAVE_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -60,7 +62,7 @@ def cache_valido():
         SAVE_FILE.unlink()
         TTL_FILE.unlink()
         return 0
-       
+
     return restante
 
 
@@ -70,8 +72,41 @@ def read_cached_code():
 
     return SAVE_FILE.read_text().strip()
 
+
 def copy_to_clipboard(text):
     subprocess.run(["xclip", "-selection", "clipboard"], input=text.encode())
+
+
+def preencher_navegador(codigo):
+    try:
+        # procura janela com esse título
+        result = (
+            subprocess.check_output(
+                ["xdotool", "search", "--name", "PMSC - Verificação 2FA"]
+            )
+            .decode()
+            .strip()
+            .splitlines()
+        )
+
+        if not result:
+            return False
+
+        win = result[-1]  # última janela encontrada
+
+        # ativa janela
+        subprocess.run(["xdotool", "windowactivate", "--sync", win])
+
+        time.sleep(0.2)
+
+        # cola no primeiro campo
+        subprocess.run(["xdotool", "key", "ctrl+a"])
+        subprocess.run(["xdotool", "type", "--delay", "50", codigo])
+
+        return True
+
+    except Exception:
+        return False
 
 
 def obter_ultimo_codigo():
@@ -118,7 +153,9 @@ def obter_ultimo_codigo():
     if msg.is_multipart():
         for part in msg.walk():
             if part.get_content_type() == "text/html":
-                html = part.get_payload(decode=True).decode(part.get_content_charset("utf-8"))
+                html = part.get_payload(decode=True).decode(
+                    part.get_content_charset("utf-8")
+                )
                 break
     else:
         if msg.get_content_type() == "text/html":
@@ -134,10 +171,9 @@ def obter_ultimo_codigo():
         # Seleciona pasta original novamente
         M.select(pasta)
         # Move para lixeira (Gmail aceita este comando)
-        M.store(msg_id, '+X-GM-LABELS', '\\Trash')
+        M.store(msg_id, "+X-GM-LABELS", "\\Trash")
 
     return codigo
-
 
 
 def obter_com_retentativas_fib(n):
@@ -154,7 +190,7 @@ def obter_com_retentativas_fib(n):
     delays = [0]
 
     # gerar delays adicionais seguindo Fibonacci suave
-    fib = [2, 3]  
+    fib = [2, 3]
     for i in range(n):
         if i < 2:
             delays.append(fib[i])
@@ -174,7 +210,6 @@ def obter_com_retentativas_fib(n):
     return None
 
 
-
 def obter_com_retentativas(n):
     """
     n = número de tentativas adicionais
@@ -187,14 +222,10 @@ def obter_com_retentativas(n):
     # delays: [0, 1, 2, 3 ...]
     delays = [i for i in range(n + 1)]
 
-
-
     for delay in delays:
         if delay > 0:
             time.sleep(delay)
-            
 
-        
         codigo = obter_ultimo_codigo()
         if codigo:
             return codigo
@@ -242,7 +273,7 @@ def main():
         # Cria a trava e inicia a busca
         try:
             IN_SEARCH_FILE.touch()
-            
+
             # Como o Polybar já está rodando a animação via 'get_current_animation_frame',
             # aqui no --check nós apenas fazemos a busca bloqueante.
             codigo = obter_com_retentativas(3)
@@ -251,11 +282,11 @@ def main():
                 write_code(codigo)
                 touch_ttl()
                 copy_to_clipboard(codigo)
+                preencher_navegador(codigo)
         finally:
             # Remove a trava para parar a animação no Polybar
             if IN_SEARCH_FILE.exists():
                 IN_SEARCH_FILE.unlink()
-
 
 
 if __name__ == "__main__":
