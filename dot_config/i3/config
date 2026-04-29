@@ -361,7 +361,7 @@ for_window [title="admin-tools Mesclar PDFs"] floating enable, move position cen
 for_window [title="admin-tools Servidor HTTP"] floating enable, move position center, border normal
 for_window [window_type="splash"] floating enable, move position center
 # regras específicas primeiro
-for_window [class="Google-chrome" window_role="pop-up" title=".*(Adicionar|Modificar)\s.*"] floating enable, resize set 1310 1140, move position center, border normal
+# for_window [class="Google-chrome" window_role="pop-up" title=".*(Adicionar|Modificar)\s.*"] floating enable, resize set 1310 1140, move position center, border normal
 # exceção do YouTube
 for_window [class="Google-chrome" title="^YouTube Music$"] floating disable, border none
 # regra geral EXCLUINDO YouTube
